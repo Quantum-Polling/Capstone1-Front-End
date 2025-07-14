@@ -6,7 +6,7 @@ import "./AuthStyles.css";
 
 const Login = ({ setUser }) => {
   const [formData, setFormData] = useState({
-    username: "",
+    email: "",
     password: "",
   });
   const [errors, setErrors] = useState({});
@@ -16,10 +16,8 @@ const Login = ({ setUser }) => {
   const validateForm = () => {
     const newErrors = {};
 
-    if (!formData.username) {
-      newErrors.username = "Username is required";
-    } else if (formData.username.length < 3 || formData.username.length > 20) {
-      newErrors.username = "Username must be between 3 and 20 characters";
+    if (!formData.email) {
+      newErrors.email = "email is required";
     }
 
     if (!formData.password) {
@@ -85,17 +83,17 @@ const Login = ({ setUser }) => {
 
         <form onSubmit={handleSubmit}>
           <div className="form-group">
-            <label htmlFor="username">Username:</label>
+            <label htmlFor="email">Email:</label>
             <input
-              type="text"
-              id="username"
-              name="username"
-              value={formData.username}
+              type="email"
+              id="email"
+              name="email"
+              value={formData.email}
               onChange={handleChange}
-              className={errors.username ? "error" : ""}
+              className={errors.email ? "error" : ""}
             />
-            {errors.username && (
-              <span className="error-text">{errors.username}</span>
+            {errors.email && (
+              <span className="error-text">{errors.email}</span>
             )}
           </div>
 
