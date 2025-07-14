@@ -9,6 +9,8 @@ import Signup from "./components/Signup";
 import Home from "./components/Home";
 import NotFound from "./components/NotFound";
 import { API_URL } from "./shared";
+import { Auth0Provider } from "@auth0/auth0-react";
+import { auth0Config } from "./auth0-config";
 
 const App = () => {
   const [user, setUser] = useState(null);
