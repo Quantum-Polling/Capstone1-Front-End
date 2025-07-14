@@ -37,10 +37,6 @@ const Signup = ({ setUser }) => {
       newErrors.lastname = "Last name is required";
     }
 
-    if (!formData.avatarurl) {
-      newErrors.avatarurl = "Avatar URL is required";
-    }
-
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
