@@ -1,8 +1,11 @@
 form.create-poll {
   max-width: 500px;
   padding: 1rem;
+  background-color: #e9e9e9;
+}
 
-  border: 1px solid red;
+.create-poll input, textarea {
+  background-color: #f7f7f7;
 }
 
 .poll-title {
@@ -15,36 +18,64 @@ form.create-poll {
   display: inline-block;
   margin-bottom: 0.5rem;
   width: 100%;
-
-  border: 1px solid blue;
 }
 
 .poll-description {
   width: 100%;
   max-width: 100%;
-  margin-bottom: 1rem;
 }
 
 .option-list, .option-list ul {
   display: flex;
   flex-direction: column;
-  font-size: 15px;
   gap: 0.5rem;
 }
 
 .poll-option {
   width: 100%;
-  font-size: 15px;
   display: flex;
   gap: 0.5rem;
 }
 
 .poll-option input {
   flex: 90%;
+  font-size: 15px;
 }
 
-button[type="submit"] {
+.create-poll .panel {
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
   margin-top: 1rem;
-  font-size: 15px;
+}
+
+.privacy-select {
+  flex: 1;
+}
+
+.privacy-select label {
+  width: 90%;
+}
+
+.date-picker {
+  flex: 1;
+  display: flex;
+  flex-direction: row;
+}
+
+.date-picker label {
+  width: auto;
+  height: 100%;
+  padding: 5px 0;
+  margin: 0;
+}
+
+.create-poll button[type="submit"] {
+  margin-top: 1rem;
   width: 100%;
+}
+
+.create-poll button {
+  font-size: 15px;
+  padding: 3px 0;
 }
