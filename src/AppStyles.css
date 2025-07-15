@@ -39,3 +39,7 @@ body {
   height: 100px;
   animation: spin 15s linear infinite;
 }
+
+.drop-shadow {
+  box-shadow: 0 4px 8px 0 #00000068, 0 6px 20px 0 #00000060;
+}
