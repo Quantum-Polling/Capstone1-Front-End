@@ -4,10 +4,11 @@ import axios from "axios";
 import "./AuthStyles.css";
 import { API_URL } from "../shared";
 
-const Signup = ({ setUser }) => {
+const Signup = ({ setUser , onAuth0Login }) => {
   const [formData, setFormData] = useState({
     email: "",
     password: "",
+    confirmPassword: "",
     firstname: "",
     lastname: "",
     avatarurl: "",
@@ -27,6 +28,10 @@ const Signup = ({ setUser }) => {
       newErrors.password = "Password is required";
     } else if (formData.password.length < 6) {
       newErrors.password = "Password must be at least 6 characters";
+    }
+
+    if (formData.password !== formData.confirmPassword) {
+      newErrors.confirmPassword = "Passwords do not match";
     }
 
     if (!formData.firstname) {
@@ -55,6 +60,7 @@ const Signup = ({ setUser }) => {
         {
           email: formData.email,
           password: formData.password,
+          confirmPassword: formData.confirmPassword,
           firstname: formData.firstname,
           lastname: formData.lastname,
           avatarurl: formData.avatarurl,
@@ -129,6 +135,21 @@ const Signup = ({ setUser }) => {
               <span className="error-text">{errors.password}</span>
             )}
           </div>
+          
+          <div className="form-group">
+            <label htmlFor="confirmPassword">Confirm Password:</label>
+            <input
+              type="password"
+              id="confirmPassword"
+              name="confirmPassword"
+              value={formData.confirmPassword}
+              onChange={handleChange}
+              className={errors.confirmPassword ? "error" : ""}
+            />
+            {errors.confirmPassword && (
+              <span className="error-text">{errors.confirmPassword}</span>
+            )}
+          </div>
 
           <div className="form-group">
             <label htmlFor="firstname">First Name:</label>
@@ -179,6 +200,18 @@ const Signup = ({ setUser }) => {
             {isLoading ? "Creating account..." : "Sign Up"}
           </button>
         </form>
+
+        <div className="auth-divider">
+          <span>or</span>
+        </div>
+
+        <button
+          type="button"
+          onClick={onAuth0Login}
+          className="auth0-login-btn"
+        >
+          Sign up with Auth0
+        </button>
 
         <p className="auth-link">
           Already have an account? <Link to="/login">Login</Link>
