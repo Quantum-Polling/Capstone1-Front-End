@@ -3,6 +3,9 @@ import { Link } from "react-router-dom";
 import "./NavBarStyles.css";
 
 const NavBar = ({ user, onLogout }) => {
+
+  console.log("User", user);
+
   return (
     <nav className="navbar">
       <div className="nav-brand">
@@ -12,7 +15,17 @@ const NavBar = ({ user, onLogout }) => {
       <div className="nav-links">
         {user ? (
           <div className="user-section">
-            <span className="username">Welcome, {user.username}!</span>
+
+            <span className="username">
+              Welcome, {user.firstName} {user.lastName} !
+            </span>
+            <div className="admin-links">
+              <Link to="/userlist" className="nav-link">
+                UserList
+              </Link>
+
+            </div>
+
             <button onClick={onLogout} className="logout-btn">
               Logout
             </button>
