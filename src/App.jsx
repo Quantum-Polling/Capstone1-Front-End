@@ -9,10 +9,11 @@ import Signup from "./components/Signup";
 import Home from "./components/Home";
 import NotFound from "./components/NotFound";
 import { API_URL } from "./shared";
+import PollList from "./components/PollList";
 
 const App = () => {
   const [user, setUser] = useState(null);
-
+  const [polls, setPolls] = useState([]);
   const checkAuth = async () => {
     try {
       const response = await axios.get(`${API_URL}/auth/me`, {
@@ -28,6 +29,22 @@ const App = () => {
   // Check authentication status on app load
   useEffect(() => {
     checkAuth();
+  }, []);
+
+  const getPolls = async () => {
+    try {
+      const response = await axios.get(`${API_URL}/api/polls`, {
+        withCredentials: true,
+      });
+      console.log(response.data);
+      setPolls(response.data);
+    } catch (error) {
+      console.error("Error", error);
+    }
+  };
+
+  useEffect(() => {
+    getPolls();
   }, []);
 
   const handleLogout = async () => {
@@ -54,6 +71,7 @@ const App = () => {
           <Route path="/login" element={<Login setUser={setUser} />} />
           <Route path="/signup" element={<Signup setUser={setUser} />} />
           <Route exact path="/" element={<Home />} />
+          <Route path="poll-list" element={<PollList polls={polls} />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </div>
