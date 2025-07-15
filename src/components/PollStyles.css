@@ -1,0 +1,50 @@
+form.create-poll {
+  max-width: 500px;
+  padding: 1rem;
+
+  border: 1px solid red;
+}
+
+.poll-title {
+  width: 100%;
+  font-size: 40px;
+  margin-bottom: 1rem;
+}
+
+.create-poll label {
+  display: inline-block;
+  margin-bottom: 0.5rem;
+  width: 100%;
+
+  border: 1px solid blue;
+}
+
+.poll-description {
+  width: 100%;
+  max-width: 100%;
+  margin-bottom: 1rem;
+}
+
+.option-list, .option-list ul {
+  display: flex;
+  flex-direction: column;
+  font-size: 15px;
+  gap: 0.5rem;
+}
+
+.poll-option {
+  width: 100%;
+  font-size: 15px;
+  display: flex;
+  gap: 0.5rem;
+}
+
+.poll-option input {
+  flex: 90%;
+}
+
+button[type="submit"] {
+  margin-top: 1rem;
+  font-size: 15px;
+  width: 100%;
+}
