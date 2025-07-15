@@ -10,11 +10,13 @@ import Home from "./components/Home";
 import NotFound from "./components/NotFound";
 import UserList from "./components/UserList";
 import { API_URL } from "./shared";
+import PollList from "./components/PollList";
 import { Auth0Provider, useAuth0 } from "@auth0/auth0-react";
 import { auth0Config } from "./auth0-config";
 
 const App = () => {
   const [user, setUser] = useState(null);
+  const [polls, setPolls] = useState([]);
   
   const [loading, setLoading] = useState(true);
   const {
@@ -33,9 +35,8 @@ const App = () => {
     } catch {
       console.log("Not authenticated");
       setUser(null);
-    }finally {
+    } finally {
       setLoading(false);
-    
     }
   };
 
@@ -44,6 +45,22 @@ const App = () => {
     checkAuth();
   }, []);
 
+  const getPolls = async () => {
+    try {
+      const response = await axios.get(`${API_URL}/api/polls`, {
+        withCredentials: true,
+      });
+      console.log(response.data);
+      setPolls(response.data);
+    } catch (error) {
+      console.error("Error", error);
+    }
+  };
+
+  useEffect(() => {
+    getPolls();
+  }, []);
+  
   // Handle Auth0 authentication
   useEffect(() => {
     if (isAuthenticated && auth0User) {
@@ -71,8 +88,6 @@ const App = () => {
       console.error("Auth0 login error:", error);
     }
   };
-
-
 
   const handleLogout = async () => {
     try {
@@ -115,9 +130,8 @@ const App = () => {
           <Route path="/login" element={<Login setUser={setUser} onAuth0Login={handleAuth0LoginClick} />} />
           <Route path="/signup" element={<Signup setUser={setUser} onAuth0Login={handleAuth0LoginClick}/>} />
           <Route exact path="/" element={<Home />} />
-          <Route path="*" element={<NotFound />} />
-          
-          
+          <Route path="poll-list" element={<PollList polls={polls} />} />
+          <Route path="*" element={<NotFound />} /> 
         </Routes>
       </div>
     </div>
