@@ -8,6 +8,7 @@ import Login from "./components/Login";
 import Signup from "./components/Signup";
 import Home from "./components/Home";
 import NotFound from "./components/NotFound";
+import UserList from "./components/UserList";
 import { API_URL } from "./shared";
 
 const App = () => {
