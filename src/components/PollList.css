@@ -1,0 +1,25 @@
+.poll-card {
+  border-radius: 25px;
+  background: #76abae;
+  padding: 20px;
+  width: 200px;
+  height: 150px;
+  margin: 15px;
+  box-shadow: 1px 1px #d9d9d9;
+}
+
+.poll-list {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+h2 {
+  display: flex;
+}
+
+h3 {
+  text-align: center;
+}
+body {
+  background: #31363f;
+}
