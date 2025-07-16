@@ -79,3 +79,9 @@ form.create-poll {
   font-size: 15px;
   padding: 3px 0;
 }
+
+.errors {
+  border: 3px solid red;
+  margin-top: 0.5rem;
+  padding: 0.5rem 1.5rem;
+}
