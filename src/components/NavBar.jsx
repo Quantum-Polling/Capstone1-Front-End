@@ -1,9 +1,11 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "./NavBarStyles.css";
+import { Navigate } from "react-router-dom";
 
 const NavBar = ({ user, onLogout }) => {
   console.log("User", user);
+  const navigate = useNavigate();
 
   return (
     <nav className="navbar">
@@ -28,6 +30,13 @@ const NavBar = ({ user, onLogout }) => {
 
             <button onClick={onLogout} className="logout-btn">
               Logout
+            </button>
+            <button
+              onClick={() => navigate("/poll-list")}
+              type="button"
+              className="logout-btn"
+            >
+              Polls
             </button>
           </div>
         ) : (
