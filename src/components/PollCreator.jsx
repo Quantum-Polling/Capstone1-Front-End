@@ -19,6 +19,11 @@ const PollCreator = ({ user, poll }) => {
   const [options, setOptions] = useState(["", "", ""]);
   const [endDate, setEndDate] = useState(null);
   const [open, setOpen] = useState(false);
+
+  // Poll Errors
+  const [titleError, setTitleError] = useState("");
+  const [descriptionError, setDescriptionError] = useState("");
+  const [optionsError, setOptionsError] = useState("");
   
   const editTitle = (event) => {
     setTitle(event.target.value);
@@ -42,12 +47,23 @@ const PollCreator = ({ user, poll }) => {
     event.preventDefault();
 
     const newPoll = {
-      title: title,
-      description: description,
+      title: title.trim(),
+      description: description.trim(),
       options: options,
       open: open,
       endDate: endDate
     }
+
+    setTitleError(newPoll.title ? "" : "Title cannot be empty");
+    setDescriptionError(newPoll.description ? "" : "Description cannot be empty");
+
+    for (const option of newPoll.options) {
+      if (!(option.trim())) {
+        setOptionsError("Options cannot be empty");
+        break;
+      }
+    }
+
     console.log(newPoll);
   }
 
@@ -123,6 +139,16 @@ const PollCreator = ({ user, poll }) => {
       <label><h3>Options</h3></label>
       <OptionInputList options={options} setOptions={setOptions} />
       
+      {
+        (titleError || descriptionError || optionsError) &&
+        <div className="errors">
+          <ul>
+            {titleError && <li>{titleError}</li>}
+            {descriptionError && <li>{descriptionError}</li>}
+            {optionsError && <li>{optionsError}</li>}
+          </ul>
+        </div>
+      }
 
       <button type="submit">Submit</button>
     </form>
