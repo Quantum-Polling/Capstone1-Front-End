@@ -3,9 +3,7 @@ import "./PollStyles.css";
 import OptionInputList from "./OptionInputList";
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { useFetcher } from "react-router-dom";
 import dayjs from "dayjs";
-import ToggleButton from "@mui/material/ToggleButton";
 
 const PollCreator = ({ user, poll }) => {
 //   User not logged in, display message instead of form
@@ -15,6 +13,7 @@ const PollCreator = ({ user, poll }) => {
 //     )
 //   }
 
+  // Poll Details
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [options, setOptions] = useState(["", "", ""]);
@@ -38,13 +37,18 @@ const PollCreator = ({ user, poll }) => {
     setEndDate(formattedDate);
   }
 
+  // Validate and publish poll
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log({
-        title: title,
-        description: description,
-        options: options,
-    })
+
+    const newPoll = {
+      title: title,
+      description: description,
+      options: options,
+      open: open,
+      endDate: endDate
+    }
+    console.log(newPoll);
   }
 
   useEffect(() => {
@@ -83,10 +87,22 @@ const PollCreator = ({ user, poll }) => {
           </label>
           <br />
 
-          <input type="radio" name="privacy" id="public"/>
+          <input 
+            type="radio" 
+            name="privacy" 
+            id="public"
+            checked={open}
+            onChange={() => {setOpen(true)}}
+          />
           <label htmlFor="public">&nbsp;Public</label>
 
-          <input type="radio" name="privacy" id="restricted"/>
+          <input 
+            type="radio" 
+            name="privacy" 
+            id="restricted" 
+            checked={!open}
+            onChange={() => {setOpen(false)}}
+          />
           <label htmlFor="restricted">&nbsp;Accounts Only</label>
         </div>
 
