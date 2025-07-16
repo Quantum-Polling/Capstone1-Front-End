@@ -17,7 +17,7 @@ import { auth0Config } from "./auth0-config";
 const App = () => {
   const [user, setUser] = useState(null);
   const [polls, setPolls] = useState([]);
-  
+
   const [loading, setLoading] = useState(true);
   const {
     isAuthenticated,
@@ -47,6 +47,7 @@ const App = () => {
 
   const getPolls = async () => {
     try {
+      console.log("hello");
       const response = await axios.get(`${API_URL}/api/polls`, {
         withCredentials: true,
       });
@@ -60,7 +61,7 @@ const App = () => {
   useEffect(() => {
     getPolls();
   }, []);
-  
+
   // Handle Auth0 authentication
   useEffect(() => {
     if (isAuthenticated && auth0User) {
@@ -100,7 +101,7 @@ const App = () => {
         }
       );
       setUser(null);
-    // Logout from Auth0
+      // Logout from Auth0
       auth0Logout({
         logoutParams: {
           returnTo: window.location.origin,
@@ -119,19 +120,31 @@ const App = () => {
     return <div className="app">Loading...</div>;
   }
 
-
   return (
     <div>
-      <NavBar user={user} onLogout={handleLogout} 
-      onAuth0Login={handleAuth0LoginClick}
-      iAuth0Authenticated={isAuthenticated} />
+      <NavBar
+        user={user}
+        onLogout={handleLogout}
+        onAuth0Login={handleAuth0LoginClick}
+        iAuth0Authenticated={isAuthenticated}
+      />
       <div className="app">
         <Routes>
-          <Route path="/login" element={<Login setUser={setUser} onAuth0Login={handleAuth0LoginClick} />} />
-          <Route path="/signup" element={<Signup setUser={setUser} onAuth0Login={handleAuth0LoginClick}/>} />
+          <Route
+            path="/login"
+            element={
+              <Login setUser={setUser} onAuth0Login={handleAuth0LoginClick} />
+            }
+          />
+          <Route
+            path="/signup"
+            element={
+              <Signup setUser={setUser} onAuth0Login={handleAuth0LoginClick} />
+            }
+          />
           <Route exact path="/" element={<Home />} />
           <Route path="poll-list" element={<PollList polls={polls} />} />
-          <Route path="*" element={<NotFound />} /> 
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </div>
     </div>
@@ -141,9 +154,9 @@ const App = () => {
 const Root = () => {
   return (
     <Auth0Provider {...auth0Config}>
-    <Router>
-      <App />
-    </Router>
+      <Router>
+        <App />
+      </Router>
     </Auth0Provider>
   );
 };

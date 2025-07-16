@@ -6,7 +6,10 @@ const PollCard = ({ poll }) => {
     <div className="poll-card">
       <h3>
         {poll.title}
+        <br />
         {poll.description}
+        {poll.creator.creatorFirstName}
+        {poll.status}
       </h3>
     </div>
   );

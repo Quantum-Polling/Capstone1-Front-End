@@ -6,7 +6,7 @@ const PollList = ({ polls }) => {
   return (
     <div className="poll-list">
       {polls.length > 0 ? (
-        polls.map((poll) => <PollCard poll={poll} />)
+        polls.map((poll) => <PollCard key={poll.id} poll={poll} />)
       ) : (
         <p>No polls found</p>
       )}
