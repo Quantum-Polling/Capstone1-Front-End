@@ -4,6 +4,7 @@ const OptionInput = ({ index, option, onChange, onDelete }) => {
   return (
     <li className="poll-option">
       <input 
+        required
         type="text"
         placeholder={"Option " + (index + 1)}
         value={option}
