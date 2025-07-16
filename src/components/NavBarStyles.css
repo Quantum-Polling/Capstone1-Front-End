@@ -78,3 +78,12 @@
 .active {
   border: 1px solid black;
 }
+
+.profile-image {
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-left: 10px;
+  vertical-align: middle;
+}

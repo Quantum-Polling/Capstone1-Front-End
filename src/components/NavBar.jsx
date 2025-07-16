@@ -10,7 +10,7 @@ const NavBar = ({ user, onLogout }) => {
   return (
     <nav className="navbar">
       <div className="nav-brand">
-        <Link to="/">Home</Link>
+        <Link to="/">Capstone I</Link>
       </div>
 
       <div className="nav-links">
@@ -19,6 +19,13 @@ const NavBar = ({ user, onLogout }) => {
             <span className="username">
               Welcome, {user.firstName} {user.lastName} !
             </span>
+            {user.avatarURL && (
+              <img
+                src={user.avatarURL}
+                alt="Profile"
+                className="profile-image"
+              />  
+            )}
 
             <div className="admin-links">
               {user?.role?.toLowerCase() === "admin" && (
