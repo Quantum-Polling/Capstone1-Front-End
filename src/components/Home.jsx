@@ -1,11 +1,17 @@
-import React from "react";
-
+import React, { useState } from "react";
+import SearchBar from "./Searchbar";
 const Home = () => {
+  const [searchResult, setSearchResult] = useState("");
+
+  const handleSearch = (query) => {
+    console.log("Search for:", query);
+  };
   return (
-    <>
-      <h1>Hello React!</h1>
-      <img className="react-logo" src="/react-logo.svg" alt="React Logo" />
-    </>
+    <div className="home-container">
+      <SearchBar onSearch={handleSearch} />
+      {searchResult && <p>{searchResult}</p>}
+    </div>
+    
   );
 };
 
