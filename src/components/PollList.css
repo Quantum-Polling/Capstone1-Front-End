@@ -3,10 +3,9 @@
   border-radius: 25px;
   background: #76abae;
   padding: 20px;
-  width: 300px;
+  width: 500px;
   height: 180px;
   margin: 15px;
-  /* box-shadow: 1px 1px #d9d9d9; */
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   cursor: pointer;
 }
@@ -29,7 +28,21 @@
 
 .poll-close-date {
   top: 28px;
+  bottom: 15px;
   position: relative;
+}
+.poll-auth-votes {
+  text-align: right;
+  position: relative;
+  bottom: 63px;
+  left: 3px;
+}
+
+.poll-options {
+  text-align: right;
+  position: relative;
+  left: 10px;
+  bottom: 15px;
 }
 .poll-card:hover {
   transform: translateY(-8px) scale(1.03);
@@ -41,13 +54,6 @@
   flex-wrap: wrap;
 }
 
-h2 {
-  display: flex;
-}
-
-h3 {
-  text-align: center;
-}
 body {
   background: #31363f;
 }
