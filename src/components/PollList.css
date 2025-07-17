@@ -1,11 +1,39 @@
 .poll-card {
+  position: relative;
   border-radius: 25px;
   background: #76abae;
   padding: 20px;
-  width: 200px;
-  height: 150px;
+  width: 300px;
+  height: 180px;
   margin: 15px;
-  box-shadow: 1px 1px #d9d9d9;
+  /* box-shadow: 1px 1px #d9d9d9; */
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+}
+
+.poll-title {
+  margin-bottom: 25px;
+  text-decoration: underline;
+}
+
+.poll-desc {
+  top: 18px;
+  left: 1px;
+  position: relative;
+}
+
+.poll-author {
+  top: 25px;
+  bottom: 10px;
+}
+
+.poll-close-date {
+  top: 28px;
+  position: relative;
+}
+.poll-card:hover {
+  transform: translateY(-8px) scale(1.03);
+  box-shadow: 10px 10px 20px rgba(74, 67, 67, 0.5);
 }
 
 .poll-list {

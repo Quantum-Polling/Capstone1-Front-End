@@ -17,6 +17,7 @@ import { auth0Config } from "./auth0-config";
 const App = () => {
   const [user, setUser] = useState(null);
   const [polls, setPolls] = useState([]);
+  const [isAuth, setIsAuth] = useState(false);
 
   const [loading, setLoading] = useState(true);
   const {
@@ -32,9 +33,11 @@ const App = () => {
         withCredentials: true,
       });
       setUser(response.data.user);
+      setIsAuth(true);
     } catch {
       console.log("Not authenticated");
       setUser(null);
+      setIsAuth(false);
     } finally {
       setLoading(false);
     }
@@ -47,7 +50,6 @@ const App = () => {
 
   const getPolls = async () => {
     try {
-      console.log("hello");
       const response = await axios.get(`${API_URL}/api/polls`, {
         withCredentials: true,
       });
@@ -143,7 +145,10 @@ const App = () => {
             }
           />
           <Route exact path="/" element={<Home />} />
-          <Route path="poll-list" element={<PollList polls={polls} />} />
+          <Route
+            path="poll-list"
+            element={<PollList polls={polls} isAuth={isAuth} />}
+          />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </div>

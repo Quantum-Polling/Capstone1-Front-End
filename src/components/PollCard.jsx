@@ -4,13 +4,14 @@ import "./PollList.css";
 const PollCard = ({ poll }) => {
   return (
     <div className="poll-card">
-      <h3>
-        {poll.title}
-        <br />
-        {poll.description}
-        {poll.creator.creatorFirstName}
-        {poll.status}
-      </h3>
+      <div className="poll-title">{poll.title}</div>
+      <div className="poll-author">
+        Created by: {poll.creator.creatorFirstName}{" "}
+        {poll.creator.creatorLastName}
+      </div>
+      <div className="poll-close-date">
+        Closes: {poll.close_date ? poll.close_date : Manually}
+      </div>
     </div>
   );
 };
