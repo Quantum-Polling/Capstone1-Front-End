@@ -4,7 +4,7 @@
   background: #76abae;
   padding: 20px;
   width: 500px;
-  height: 180px;
+  height: 158px;
   margin: 15px;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   cursor: pointer;
@@ -34,7 +34,7 @@
 .poll-auth-votes {
   text-align: right;
   position: relative;
-  bottom: 63px;
+  bottom: 82px;
   left: 3px;
 }
 
@@ -42,7 +42,13 @@
   text-align: right;
   position: relative;
   left: 10px;
-  bottom: 15px;
+  bottom: 58px;
+}
+
+.total-poll-votes {
+  position: relative;
+  text-align: right;
+  top: 22px;
 }
 .poll-card:hover {
   transform: translateY(-8px) scale(1.03);
