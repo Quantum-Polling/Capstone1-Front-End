@@ -128,11 +128,12 @@ const App = () => {
       iAuth0Authenticated={isAuthenticated} />
       <div className="app">
         <Routes>
+          <Route exact path="/" element={<Home />} />
           <Route path="/login" element={<Login setUser={setUser} onAuth0Login={handleAuth0LoginClick} />} />
           <Route path="/signup" element={<Signup setUser={setUser} onAuth0Login={handleAuth0LoginClick}/>} />
-          <Route exact path="/" element={<Home />} />
           <Route path="/userlist" element={<UserList setUser={setUser} />} />
           <Route path="/poll-list" element={<PollList polls={polls} />} />
+          <Route path="/create-poll" element={<PollCreator user={user} />} />
           <Route path="*" element={<NotFound />} /> 
         </Routes>
       </div>
