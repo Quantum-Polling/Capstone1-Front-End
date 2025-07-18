@@ -85,6 +85,14 @@ const PollCreator = ({ user, poll }) => {
       open: open,
       creatorId: 1,
     }
+
+    try {
+      console.log("New Poll Details:", newPoll);
+      const response = await axios.post(`${API_URL}/api/polls/`, newPoll);
+      console.log(response.data);
+    } catch (error) {
+      console.error(error);
+    }
   }
 
   useEffect(() => {
