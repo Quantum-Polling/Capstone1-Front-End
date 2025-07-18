@@ -99,6 +99,9 @@ const PollCreator = ({ user, poll }) => {
     if (poll) {
         setTitle(poll.title);
         setDescription(poll.description);
+        setOptions(poll.options);
+        setEndDate(poll.endDate);
+        setOpen(poll.open);
     }
   }, []);
 
