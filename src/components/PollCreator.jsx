@@ -19,6 +19,7 @@ const PollCreator = ({ user, poll }) => {
   const navigate = useNavigate();
 
   // Poll Details
+  const [id, setId] = useState(0);
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [options, setOptions] = useState(["", ""]);
@@ -49,12 +50,11 @@ const PollCreator = ({ user, poll }) => {
 
   const submitPoll = async (pollInfo) => {
     // Draft poll
-    if (poll)
+    if (id !== 0)
     {
       try {
-        const response = await axios.patch(`${API_URL}/api/polls/${user.id}/edit/${poll.id}`, pollInfo);
+        const response = await axios.patch(`${API_URL}/api/polls/${user.id}/edit/${id}`, pollInfo);
         console.log("PATCH Response:", response.data);
-        pollInfo.id = poll.id;
       } catch (error) {
         console.error(`Error ${pollInfo.status === "Draft" ? "saving" : "publishing"} draft:`, error);
       }
@@ -65,7 +65,7 @@ const PollCreator = ({ user, poll }) => {
       try {
         console.log("New Poll Details:", pollInfo);
         const response = await axios.post(`${API_URL}/api/polls/`, pollInfo);
-        pollInfo.id = response.data.pollId;
+        setId(response.data.pollId);
         console.log("POST response:", response.data);
       } catch (error) {
         console.error(`Error ${pollInfo.status === "Draft" ? "saving" : "publishing"} new poll:`, error);
@@ -122,7 +122,7 @@ const PollCreator = ({ user, poll }) => {
     }
 
     await submitPoll(pollInfo);
-    navigate(`/polls/${pollInfo.id}`);
+    navigate(`/polls/${id}`);
   }
 
   // Save poll as draft
@@ -142,6 +142,7 @@ const PollCreator = ({ user, poll }) => {
 
   useEffect(() => {
     if (poll) {
+        setId(poll.id);
         setTitle(poll.title);
         setDescription(poll.description);
         setOptions(poll.options);
