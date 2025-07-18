@@ -21,7 +21,7 @@ const PollCreator = ({ user, poll }) => {
   // Poll Details
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
-  const [options, setOptions] = useState(["", "", ""]);
+  const [options, setOptions] = useState(["", ""]);
   const [endDate, setEndDate] = useState(null);
   const [open, setOpen] = useState(false);
 
@@ -47,6 +47,32 @@ const PollCreator = ({ user, poll }) => {
     setEndDate(formattedDate);
   }
 
+  const submitPoll = async (pollInfo) => {
+    // Draft poll
+    if (poll)
+    {
+      try {
+        const response = await axios.patch(`${API_URL}/api/polls/${user.id}/edit/${poll.id}`, pollInfo);
+        console.log("PATCH Response:", response.data);
+        pollInfo.id = poll.id;
+      } catch (error) {
+        console.error(`Error ${pollInfo.status === "Draft" ? "saving" : "publishing"} draft:`, error);
+      }
+    }
+    // New poll
+    else {
+      pollInfo.creatorId = user.id;
+      try {
+        console.log("New Poll Details:", pollInfo);
+        const response = await axios.post(`${API_URL}/api/polls/`, pollInfo);
+        pollInfo.id = response.data.pollId;
+        console.log("POST response:", response.data);
+      } catch (error) {
+        console.error(`Error ${pollInfo.status === "Draft" ? "saving" : "publishing"} new poll:`, error);
+      }
+    }
+  };
+
   // Validate and publish poll
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -67,8 +93,8 @@ const PollCreator = ({ user, poll }) => {
         optErrs.push(`Option ${i + 1} cannot be empty`);
       
     // Check minimum number of options
-    if (pollOptions.length < 3)
-      optErrs.push("Must have at least 3 options");
+    if (pollOptions.length < 2)
+      optErrs.push("Must have at least 2 options");
     
     // Check for duplicate options
     if (new Set(pollOptions).size !== pollOptions.length)
@@ -95,31 +121,23 @@ const PollCreator = ({ user, poll }) => {
       open: open,
     }
 
-    // Publish a draft poll
-    if (poll)
-    {
-      try {
-        const response = await axios.patch(`${API_URL}/api/polls/${user.id}/edit/${poll.id}`, pollInfo);
-        console.log("PATCH Response:", response.data);
-        pollInfo.id = poll.id;
-      } catch (error) {
-        console.error("Error publishing draft:", error);
-      }
-    }
-    // Publish a new poll
-    else {
-      pollInfo.creatorId = user.id;
-      try {
-        console.log("New Poll Details:", pollInfo);
-        const response = await axios.post(`${API_URL}/api/polls/`, pollInfo);
-        pollInfo.id = response.data.pollId;
-        console.log("POST response:", response.data);
-      } catch (error) {
-        console.error("Error publishing new poll:", error);
-      }
-    }
-    
+    await submitPoll(pollInfo);
     navigate(`/polls/${pollInfo.id}`);
+  }
+
+  // Save poll as draft
+  const handleSave = async () => {
+    // Save everything as is
+    const pollInfo = {
+      title: title,
+      description: description,
+      options: options,
+      endDate: endDate,
+      status: "Draft",
+      open: open,
+    }
+
+    await submitPoll(pollInfo);
   }
 
   useEffect(() => {
@@ -134,21 +152,19 @@ const PollCreator = ({ user, poll }) => {
 
   return (
     <form className="create-poll drop-shadow" onSubmit={handleSubmit}>
-      <input 
-        required
-        type="text" 
-        className="poll-title" 
-        placeholder="Untitled Poll" 
+      <input
+        type="text"
+        className="poll-title"
+        placeholder="Untitled Poll"
         value={title}
         onChange={editTitle}
       />
 
       <label><h3>Description</h3></label>
-      <textarea 
-        required
-        className="poll-description" 
-        rows={4} 
-        cols={30} 
+      <textarea
+        className="poll-description"
+        rows={4}
+        cols={30}
         value={description}
         onChange={editDescription}
       />
@@ -184,7 +200,7 @@ const PollCreator = ({ user, poll }) => {
             <h4>End Date</h4>
           </label>
           <LocalizationProvider dateAdapter={AdapterDayjs}>
-            <DatePicker 
+            <DatePicker
               disablePast
               value={endDate ? dayjs(endDate, 'MM-DD-YYYY') : null}
               onChange={(date) => {editDate(date)}}
@@ -207,7 +223,7 @@ const PollCreator = ({ user, poll }) => {
           <ul>
             {titleError && <li>{titleError}</li>}
             {descriptionError && <li>{descriptionError}</li>}
-            {optionsErrors.length > 0 && 
+            {optionsErrors.length > 0 &&
               optionsErrors.map((error, index) => (
                 <li key={"Opt Err " + index}>{error}</li>
               ))}
@@ -216,7 +232,7 @@ const PollCreator = ({ user, poll }) => {
       }
 
       <div className="submit-buttons">
-        <button type="button">Save</button>
+        <button type="button" onClick={handleSave}>Save</button>
         <button type="submit">Submit</button>
       </div>
     </form>
