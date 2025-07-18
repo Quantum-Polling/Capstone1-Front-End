@@ -145,11 +145,9 @@ const App = () => {
             }
           />
           <Route exact path="/" element={<Home />} />
-          <Route
-            path="poll-list"
-            element={<PollList polls={polls} isAuth={isAuth} />}
-          />
-          <Route path="*" element={<NotFound />} />
+          <Route path="userlist" element={<UserList setUser={setUser} />} />
+          <Route path="poll-list" element={<PollList polls={polls} />} />
+          <Route path="*" element={<NotFound />} /> 
         </Routes>
       </div>
     </div>

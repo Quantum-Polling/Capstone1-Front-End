@@ -1,6 +1,7 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { API_URL } from "../shared";
+import "./UserList.css";
 
 const UserList = () => {
   const [users, setUsers] = useState([]);
@@ -10,9 +11,13 @@ const UserList = () => {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const response = await axios.get(`${API_URL}/users`);
+        const response = await axios.get(`${API_URL}/auth/users`, {
+          withCredentials: true,
+        });
+        console.log("Fetched users:", response.data); // optional debug
         setUsers(response.data);
       } catch (err) {
+        console.error(err);
         setError("Failed to fetch users");
       } finally {
         setLoading(false);
@@ -32,18 +37,17 @@ const UserList = () => {
 
   return (
     <div className="user-list">
-      <h2>User List</h2>
-      <ul>
-        {users.map((user) => (
-          <li key={user.id}>
-            <img src={user.avatarurl} alt={`${user.firstname} ${user.lastname}`} />
-            <div>
-              <h3>{`${user.firstname} ${user.lastname}`}</h3>
-              <p>{user.email}</p>
-            </div>
-          </li>
-        ))}
-      </ul>
+      {users.map((user) => (
+        <div className="user-card" key={user.id}>
+          <img
+            src={user.avatarURL || "https://via.placeholder.com/80"}
+            alt={`${user.firstName} ${user.lastName}`}
+          />
+          <h3>{`${user.firstName} ${user.lastName}`}</h3>
+          <p>{user.email}</p>
+          <p className="role">Role: {user.role || "N/A"}</p>
+        </div>
+      ))}
     </div>
   );
 };
