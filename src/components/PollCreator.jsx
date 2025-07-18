@@ -161,6 +161,11 @@ const PollCreator = ({ user, poll }) => {
               disablePast
               value={endDate ? dayjs(endDate, 'MM-DD-YYYY') : null}
               onChange={(date) => {editDate(date)}}
+              slotProps={{
+                layout: {
+                  sx: { boxShadow: "0 4px 8px 0 #00000068, 0 6px 20px 0 #00000060" }
+                }
+              }}
             />
           </LocalizationProvider>
         </div>
