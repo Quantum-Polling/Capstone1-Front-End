@@ -6,6 +6,7 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs from "dayjs";
 import axios from "axios";
 import { API_URL } from "../shared";
+import { useNavigate } from "react-router-dom";
 
 const PollCreator = ({ user, poll }) => {
   // User not logged in, display message instead of form
@@ -14,6 +15,8 @@ const PollCreator = ({ user, poll }) => {
       <p>Log in to create a poll</p>
     )
   }
+
+  const navigate = useNavigate();
 
   // Poll Details
   const [title, setTitle] = useState("");
@@ -88,6 +91,7 @@ const PollCreator = ({ user, poll }) => {
       description: pollDesc,
       options: pollOptions,
       endDate: endDate,
+      status: "Open",
       open: open,
     }
 
@@ -97,6 +101,7 @@ const PollCreator = ({ user, poll }) => {
       try {
         const response = await axios.patch(`${API_URL}/api/polls/${user.id}/edit/${poll.id}`, pollInfo);
         console.log("PATCH Response:", response.data);
+        pollInfo.id = poll.id;
       } catch (error) {
         console.error("Error publishing draft:", error);
       }
@@ -107,11 +112,14 @@ const PollCreator = ({ user, poll }) => {
       try {
         console.log("New Poll Details:", pollInfo);
         const response = await axios.post(`${API_URL}/api/polls/`, pollInfo);
+        pollInfo.id = response.data.pollId;
         console.log("POST response:", response.data);
       } catch (error) {
         console.error("Error publishing new poll:", error);
       }
     }
+    
+    navigate(`/polls/${pollInfo.id}`);
   }
 
   useEffect(() => {
