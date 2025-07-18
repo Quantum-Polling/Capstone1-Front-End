@@ -4,14 +4,16 @@ import OptionInputList from "./OptionInputList";
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs from "dayjs";
+import axios from "axios";
+import { API_URL } from "../shared";
 
 const PollCreator = ({ user, poll }) => {
-//   User not logged in, display message instead of form
-//   if (!user) {
-//     return (
-//       <p>Log in to create a poll</p>
-//     )
-//   }
+  // User not logged in, display message instead of form
+  if (!user) {
+    return (
+      <p>Log in to create a poll</p>
+    )
+  }
 
   // Poll Details
   const [title, setTitle] = useState("");
@@ -23,7 +25,7 @@ const PollCreator = ({ user, poll }) => {
   // Poll Errors
   const [titleError, setTitleError] = useState("");
   const [descriptionError, setDescriptionError] = useState("");
-  const [optionsError, setOptionsError] = useState("");
+  const [optionsErrors, setOptionsErrors] = useState([]);
   
   const editTitle = (event) => {
     setTitle(event.target.value);
@@ -38,40 +40,57 @@ const PollCreator = ({ user, poll }) => {
     const month = String(date.getMonth() + 1).padStart(2, '0');
     const day = String(date.getDate()).padStart(2, '0');
     const year = date.getFullYear();
-    const formattedDate = `${month}-${day}-${year}`;
+    const formattedDate = `${year}-${month}-${day}`;
     setEndDate(formattedDate);
   }
 
   // Validate and publish poll
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
 
+    // Trim whitespace from poll details
+    const pollTitle = title.trim();
+    const pollDesc = description.trim();
+    const pollOptions = options.map((option) => {option.trim()});
+    console.log(pollOptions);
+
+    const optErrors = [];
+    
+    // Check for empty options
+    for (let i = 0; i < pollOptions.length; i++)
+      if (!pollOptions[i])
+        optErrors.push(`Option ${i + 1} cannot be empty`);
+      
+    // Check minimum number of options
+    if (pollOptions.length < 3)
+      optErrors.push("Must have at least 3 options");
+    
+    // Check for duplicate options
+    if (new Set(pollOptions).size !== pollOptions.length)
+      optErrors.push("Cannot have duplicate options");
+    
+    setOptionsErrors(optErrors);
+    setTitleError(pollTitle ? "" : "Title cannot be empty");
+    setDescriptionError(pollDesc ? "" : "Description cannot be empty");
+    
+    // Don't attempt to submit poll if there are form errors
+    if (pollTitle || pollDesc || optErrors.length > 0)
+      return;
+
     const newPoll = {
-      title: title.trim(),
-      description: description.trim(),
-      options: options,
+      title: pollTitle,
+      description: pollDesc,
+      options: pollOptions,
+      endDate: endDate,
       open: open,
-      endDate: endDate
+      creatorId: 1,
     }
-
-    setTitleError(newPoll.title ? "" : "Title cannot be empty");
-    setDescriptionError(newPoll.description ? "" : "Description cannot be empty");
-
-    for (const option of newPoll.options) {
-      if (!(option.trim())) {
-        setOptionsError("Options cannot be empty");
-        break;
-      }
-    }
-
-    console.log(newPoll);
   }
 
   useEffect(() => {
     if (poll) {
         setTitle(poll.title);
         setDescription(poll.description);
-        setOptions(poll.options);   
     }
   }, []);
 
@@ -140,12 +159,15 @@ const PollCreator = ({ user, poll }) => {
       <OptionInputList options={options} setOptions={setOptions} />
       
       {
-        (titleError || descriptionError || optionsError) &&
+        (titleError || descriptionError || optionsErrors.length > 0) &&
         <div className="errors">
           <ul>
             {titleError && <li>{titleError}</li>}
             {descriptionError && <li>{descriptionError}</li>}
-            {optionsError && <li>{optionsError}</li>}
+            {optionsErrors.length > 0 && 
+              optionsErrors.map((error, index) => (
+                <li key={"Opt Err " + index}>{error}</li>
+              ))}
           </ul>
         </div>
       }
