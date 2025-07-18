@@ -1,6 +1,6 @@
 import React from "react";
 
-const OptionInput = ({ index, option, onChange, onDelete }) => {
+const OptionInput = ({ index, option, onChange, onDelete, displayButton }) => {
   return (
     <li className="poll-option">
       <input 
@@ -10,7 +10,10 @@ const OptionInput = ({ index, option, onChange, onDelete }) => {
         value={option}
         onChange={(e) => {onChange(e, index)}}
       />
-      <button type="button" onClick={() => {onDelete(index)}} value={index}>➖</button>
+      {
+        displayButton && 
+        <button type="button" onClick={() => {onDelete(index)}} value={index}>➖</button>
+      }
     </li>
   );
 };

@@ -2,7 +2,8 @@ import React, { useEffect } from "react";
 import OptionInput from "./OptionInput";
 
 const OptionInputList = ({ options, setOptions }) => {
-  
+  const minOptions = 2;
+
   const editOption = (event, index) => {
     const updatedOptions = [...options];
     updatedOptions[index] = event.target.value;
@@ -14,6 +15,9 @@ const OptionInputList = ({ options, setOptions }) => {
   };
 
   const removeOption = (index) => {
+    if (options.length <= minOptions)
+      return;
+
     setOptions([...options.slice(0, index), ...options.slice(index + 1)]);
   };
 
@@ -30,6 +34,7 @@ const OptionInputList = ({ options, setOptions }) => {
                 option={option}
                 onChange={editOption}
                 onDelete={removeOption}
+                displayButton={options.length > minOptions}
               />
             ))
           ) : (
