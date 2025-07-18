@@ -150,7 +150,10 @@ const PollCreator = ({ user, poll }) => {
         </div>
       }
 
-      <button type="submit">Submit</button>
+      <div className="submit-buttons">
+        <button type="button">Save</button>
+        <button type="submit">Submit</button>
+      </div>
     </form>
   );
 };

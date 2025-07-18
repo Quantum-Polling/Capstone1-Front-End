@@ -70,9 +70,16 @@ form.create-poll {
   margin: 0;
 }
 
-.create-poll button[type="submit"] {
+.create-poll .submit-buttons {
+  display: flex;
+  flex-direction: row;
   margin-top: 1rem;
   width: 100%;
+  gap: 3rem;
+}
+
+.submit-buttons button {
+  flex: 1;
 }
 
 .create-poll button {
