@@ -51,47 +51,66 @@ const PollCreator = ({ user, poll }) => {
     // Trim whitespace from poll details
     const pollTitle = title.trim();
     const pollDesc = description.trim();
-    const pollOptions = options.map((option) => {option.trim()});
-    console.log(pollOptions);
+    const pollOptions = options.map((option) => (option.trim()));
+    console.log("Options:", pollOptions);
 
-    const optErrors = [];
+    const titleErr = pollTitle ? "" : "Title cannot be empty";
+    const descErr = pollDesc ? "" : "Description cannot be empty";
+    const optErrs = [];
     
     // Check for empty options
     for (let i = 0; i < pollOptions.length; i++)
       if (!pollOptions[i])
-        optErrors.push(`Option ${i + 1} cannot be empty`);
+        optErrs.push(`Option ${i + 1} cannot be empty`);
       
     // Check minimum number of options
     if (pollOptions.length < 3)
-      optErrors.push("Must have at least 3 options");
+      optErrs.push("Must have at least 3 options");
     
     // Check for duplicate options
     if (new Set(pollOptions).size !== pollOptions.length)
-      optErrors.push("Cannot have duplicate options");
+      optErrs.push("Cannot have duplicate options");
     
-    setOptionsErrors(optErrors);
-    setTitleError(pollTitle ? "" : "Title cannot be empty");
-    setDescriptionError(pollDesc ? "" : "Description cannot be empty");
+    setOptionsErrors(optErrs);
+    setTitleError(titleErr);
+    setDescriptionError(descErr);
     
+    console.log("Title Error:", titleError);
+    console.log("Description Error:", descriptionError);
+    console.log("Option Errors:", optErrs);
+
     // Don't attempt to submit poll if there are form errors
-    if (pollTitle || pollDesc || optErrors.length > 0)
+    if (titleErr || descErr || optErrs.length > 0)
       return;
 
-    const newPoll = {
+    const pollInfo = {
       title: pollTitle,
       description: pollDesc,
       options: pollOptions,
       endDate: endDate,
       open: open,
-      creatorId: 1,
     }
 
-    try {
-      console.log("New Poll Details:", newPoll);
-      const response = await axios.post(`${API_URL}/api/polls/`, newPoll);
-      console.log(response.data);
-    } catch (error) {
-      console.error(error);
+    // Publish a draft poll
+    if (poll)
+    {
+      try {
+        const response = await axios.patch(`${API_URL}/api/polls/${user.id}/edit/${poll.id}`, pollInfo);
+        console.log("PATCH Response:", response.data);
+      } catch (error) {
+        console.error("Error publishing draft:", error);
+      }
+    }
+    // Publish a new poll
+    else {
+      pollInfo.creatorId = user.id;
+      try {
+        console.log("New Poll Details:", pollInfo);
+        const response = await axios.post(`${API_URL}/api/polls/`, pollInfo);
+        console.log("POST response:", response.data);
+      } catch (error) {
+        console.error("Error publishing new poll:", error);
+      }
     }
   }
 
