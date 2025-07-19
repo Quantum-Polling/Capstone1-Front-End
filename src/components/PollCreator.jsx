@@ -251,8 +251,8 @@ const PollCreator = ({ user }) => {
       }
 
       <div className="submit-buttons">
-        <button type="button" onClick={handleSave}>Save</button>
-        <button type="submit">Submit</button>
+        <button type="button" onClick={handleSave}>Save Draft</button>
+        <button type="submit">Publish</button>
       </div>
     </form>
   );
