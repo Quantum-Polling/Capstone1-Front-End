@@ -132,8 +132,11 @@ const App = () => {
           <Route path="/login" element={<Login setUser={setUser} onAuth0Login={handleAuth0LoginClick} />} />
           <Route path="/signup" element={<Signup setUser={setUser} onAuth0Login={handleAuth0LoginClick}/>} />
           <Route path="/userlist" element={<UserList setUser={setUser} />} />
-          <Route path="/poll-list" element={<PollList polls={polls} />} />
-          <Route path="/create-poll" element={<PollCreator user={user} />} />
+          <Route exact path="/polls" >
+            <Route index element={<PollList polls={polls} />} />
+            <Route path="create" element={<PollCreator user={user} />} />
+            <Route path="edit/:pollId" element={<PollCreator user={user}/>} />
+          </Route>
           <Route path="*" element={<NotFound />} /> 
         </Routes>
       </div>
