@@ -6,9 +6,9 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs from "dayjs";
 import axios from "axios";
 import { API_URL } from "../shared";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
-const PollCreator = ({ user, poll }) => {
+const PollCreator = ({ user }) => {
   // User not logged in, display message instead of form
   if (!user) {
     return (
@@ -19,6 +19,7 @@ const PollCreator = ({ user, poll }) => {
   const navigate = useNavigate();
 
   // Poll Details
+  const { pollId } = useParams();
   const [id, setId] = useState(0);
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
@@ -140,14 +141,31 @@ const PollCreator = ({ user, poll }) => {
     await submitPoll(pollInfo);
   }
 
+  // Load a draft poll
+  const loadPoll = async () => {
+    try {
+      const response = await axios.get(`${API_URL}/api/polls/${pollId}`);
+      const poll = response.data.poll;
+
+      setId(poll.id);
+      setTitle(poll.title === "Untitled Poll" ? "" : poll.title);
+      setDescription(poll.description === "[DRAFT]" ? "" : poll.description);
+      setEndDate(poll.end_date);
+      setOpen(!poll.authVotes);
+
+      const opts = poll.poll_options.map((opt) => (
+        opt.text.startsWith("[OPTION PLACEHOLDER") ? "" : opt.text
+      ));
+
+      setOptions(opts);
+    } catch (error) {
+      console.error("Error loading poll:", error);
+    }
+  }
+
   useEffect(() => {
-    if (poll) {
-        setId(poll.id);
-        setTitle(poll.title);
-        setDescription(poll.description);
-        setOptions(poll.options);
-        setEndDate(poll.endDate);
-        setOpen(poll.open);
+    if (pollId) {
+      loadPoll();
     }
   }, []);
 
