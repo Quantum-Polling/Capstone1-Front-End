@@ -10,6 +10,7 @@ import Home from "./components/Home";
 import NotFound from "./components/NotFound";
 import UserList from "./components/UserList";
 import { API_URL } from "./shared";
+import PollCreator from "./components/PollCreator";
 import PollList from "./components/PollList";
 import { Auth0Provider, useAuth0 } from "@auth0/auth0-react";
 import { auth0Config } from "./auth0-config";
@@ -127,11 +128,15 @@ const App = () => {
       iAuth0Authenticated={isAuthenticated} />
       <div className="app">
         <Routes>
+          <Route exact path="/" element={<Home />} />
           <Route path="/login" element={<Login setUser={setUser} onAuth0Login={handleAuth0LoginClick} />} />
           <Route path="/signup" element={<Signup setUser={setUser} onAuth0Login={handleAuth0LoginClick}/>} />
-          <Route exact path="/" element={<Home />} />
-          <Route path="userlist" element={<UserList setUser={setUser} />} />
-          <Route path="poll-list" element={<PollList polls={polls} />} />
+          <Route path="/userlist" element={<UserList setUser={setUser} />} />
+          <Route exact path="/polls" >
+            <Route index element={<PollList polls={polls} />} />
+            <Route path="create" element={<PollCreator user={user} />} />
+            <Route path="edit/:pollId" element={<PollCreator user={user}/>} />
+          </Route>
           <Route path="*" element={<NotFound />} /> 
         </Routes>
       </div>
