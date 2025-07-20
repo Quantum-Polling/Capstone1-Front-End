@@ -11,7 +11,7 @@ const OptionInput = ({ index, option, onChange, onDelete, displayButton }) => {
       />
       {
         displayButton &&
-        <button type="button" onClick={() => {onDelete(index)}} value={index}>➖</button>
+        <button type="button" onClick={() => {onDelete(index)}} value={index}>❌</button>
       }
     </li>
   );
