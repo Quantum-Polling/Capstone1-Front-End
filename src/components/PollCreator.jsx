@@ -64,9 +64,9 @@ const PollCreator = ({ user }) => {
     else {
       pollInfo.creatorId = user.id;
       try {
-        console.log("New Poll Details:", pollInfo);
         const response = await axios.post(`${API_URL}/api/polls/`, pollInfo);
         setId(response.data.pollId);
+        pollInfo.id = response.data.pollId;
         console.log("POST response:", response.data);
       } catch (error) {
         console.error(`Error ${pollInfo.status === "Draft" ? "saving" : "publishing"} new poll:`, error);
@@ -123,7 +123,7 @@ const PollCreator = ({ user }) => {
     }
 
     await submitPoll(pollInfo);
-    navigate(`/polls/${id}`);
+    navigate(`/polls/${pollInfo.id ? pollInfo.id : id}`);
   }
 
   // Save poll as draft
@@ -160,6 +160,7 @@ const PollCreator = ({ user }) => {
       setOptions(opts);
     } catch (error) {
       console.error("Error loading poll:", error);
+      navigate("/polls/create");
     }
   }
 
@@ -221,7 +222,7 @@ const PollCreator = ({ user }) => {
           <LocalizationProvider dateAdapter={AdapterDayjs}>
             <DatePicker
               disablePast
-              value={endDate ? dayjs(endDate, 'MM-DD-YYYY') : null}
+              value={endDate ? dayjs(endDate, 'YYYY-MM-DD') : null }
               onChange={(date) => {editDate(date)}}
               slotProps={{
                 layout: {
