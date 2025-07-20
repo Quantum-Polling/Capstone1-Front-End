@@ -20,6 +20,7 @@ const PollCreator = ({ user }) => {
 
   // Form State
   const [loading, setLoading] = useState(true);
+  const [authorized, setAuthorized] = useState(false);
   const [disabled, setDisabled] = useState(true);
 
   // Poll Details
@@ -152,9 +153,16 @@ const PollCreator = ({ user }) => {
   // Load a draft poll
   const loadPoll = async () => {
     if (pollId) {
-      try {
+      loadPoll: try {
         const response = await axios.get(`${API_URL}/api/polls/${pollId}`);
         const poll = response.data.poll;
+
+        // Verify that the user can edit this poll
+        const isOwner = poll.creatorId === user.id;
+        if (!isOwner) {
+          setAuthorized(isOwner);
+          break loadPoll;
+        }
 
         setId(poll.id);
         setTitle(poll.title === "Untitled Poll" ? "" : poll.title);
@@ -183,6 +191,20 @@ const PollCreator = ({ user }) => {
 
   if (loading) {
     return <p>Loading...</p>
+  }
+
+  if (!authorized) {
+    return (
+      <div className="disabled-message">
+        <img
+          className="spongebob-404"
+          src="/spongebob-404.webp"
+          alt="Spongebob 404"
+        />
+        <h1>This poll cannot be edited</h1>
+        <h2>You are not the owner!</h2>
+      </div>
+    )
   }
 
   return (
