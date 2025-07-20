@@ -32,7 +32,7 @@ const NavBar = ({ user, onLogout }) => {
               Logout
             </button>
             <button
-              onClick={() => navigate("/poll-list")}
+              onClick={() => navigate("/polls")}
               type="button"
               className="logout-btn"
             >
