@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import OptionInput from "./OptionInput";
 
-const OptionInputList = ({ options, setOptions }) => {
+const OptionInputList = ({ options, setOptions, disabled }) => {
   const minOptions = 2;
 
   const editOption = (event, index) => {
@@ -23,19 +23,27 @@ const OptionInputList = ({ options, setOptions }) => {
 
   return (
     <div className="option-list">
-      <button type="button" onClick={addOption}>➕ Add New Option</button>
+      { /* New Option Button */
+        !disabled && <button type="button" onClick={addOption}>➕ Add New Option</button>
+      }
       <ul>
-        { 
+        { /* Options List */
           options.length > 0 ? (
             options.map((option, index) => (
-              <OptionInput
-                key={index}
-                index={index}
-                option={option}
-                onChange={editOption}
-                onDelete={removeOption}
-                displayButton={options.length > minOptions}
-              />
+              disabled ? (
+                <li key={index} className="poll-option-finalized">
+                  {option}
+                </li>
+              ) : (
+                <OptionInput
+                  key={index}
+                  index={index}
+                  option={option}
+                  onChange={editOption}
+                  onDelete={removeOption}
+                  displayButton={options.length > minOptions}
+                />
+              )
             ))
           ) : (
             <p>No options added</p>

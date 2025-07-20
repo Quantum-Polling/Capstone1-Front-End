@@ -8,15 +8,27 @@ form.create-poll {
   background-color: #f7f7f7;
 }
 
+.disabled-message {
+  width: 100%;
+  text-align: center;
+  color: darkred;
+}
+
 .poll-title {
   width: 100%;
-  font-size: 40px;
-  margin-bottom: 1rem;
+}
+
+.poll-title h1 {
+  font-size: 2.5rem;
+}
+
+input.poll-title {
+  font-size: 2.5rem;
 }
 
 .create-poll label {
   display: inline-block;
-  margin-bottom: 0.5rem;
+  margin: 1rem 0 0.5rem;
   width: 100%;
 }
 
@@ -29,6 +41,12 @@ form.create-poll {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
+}
+
+.poll-option-finalized {
+  width: 100%;
+  list-style: square;
+  list-style-position: inside;
 }
 
 .poll-option {
@@ -54,6 +72,7 @@ form.create-poll {
 }
 
 .privacy-select label {
+  margin: auto 0 0.5rem;
   width: 90%;
 }
 
@@ -65,9 +84,11 @@ form.create-poll {
 
 .date-picker label {
   width: auto;
+  margin: auto 0 0.5rem;
+}
+
+.date-picker p {
   height: 100%;
-  padding: 5px 0;
-  margin: 0;
 }
 
 .create-poll .submit-buttons {
@@ -88,7 +109,8 @@ form.create-poll {
 }
 
 .errors {
-  border: 3px solid red;
+  border: 3px solid darkred;
+  color: darkred;
   margin-top: 0.5rem;
   padding: 0.5rem 1.5rem;
 }
