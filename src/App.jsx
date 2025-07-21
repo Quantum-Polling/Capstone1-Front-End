@@ -18,7 +18,8 @@ import { auth0Config } from "./auth0-config";
 const App = () => {
   const [user, setUser] = useState(null);
   const [polls, setPolls] = useState([]);
-  
+  const [isAuth, setIsAuth] = useState(false);
+
   const [loading, setLoading] = useState(true);
   const {
     isAuthenticated,
@@ -33,9 +34,11 @@ const App = () => {
         withCredentials: true,
       });
       setUser(response.data.user);
+      setIsAuth(true);
     } catch {
       console.log("Not authenticated");
       setUser(null);
+      setIsAuth(false);
     } finally {
       setLoading(false);
     }
@@ -61,7 +64,7 @@ const App = () => {
   useEffect(() => {
     getPolls();
   }, []);
-  
+
   // Handle Auth0 authentication
   useEffect(() => {
     if (isAuthenticated && auth0User) {
@@ -101,7 +104,7 @@ const App = () => {
         }
       );
       setUser(null);
-    // Logout from Auth0
+      // Logout from Auth0
       auth0Logout({
         logoutParams: {
           returnTo: window.location.origin,
@@ -120,12 +123,14 @@ const App = () => {
     return <div className="app">Loading...</div>;
   }
 
-
   return (
     <div>
-      <NavBar user={user} onLogout={handleLogout} 
-      onAuth0Login={handleAuth0LoginClick}
-      iAuth0Authenticated={isAuthenticated} />
+      <NavBar
+        user={user}
+        onLogout={handleLogout}
+        onAuth0Login={handleAuth0LoginClick}
+        iAuth0Authenticated={isAuthenticated}
+      />
       <div className="app">
         <Routes>
           <Route exact path="/" element={<Home />} />
@@ -147,9 +152,9 @@ const App = () => {
 const Root = () => {
   return (
     <Auth0Provider {...auth0Config}>
-    <Router>
-      <App />
-    </Router>
+      <Router>
+        <App />
+      </Router>
     </Auth0Provider>
   );
 };
