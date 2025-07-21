@@ -10,7 +10,7 @@ const NavBar = ({ user, onLogout }) => {
   return (
     <nav className="navbar">
       <div className="nav-brand">
-        <Link to="/">Capstone I</Link>
+        <Link to="/">Home</Link>
       </div>
 
       <div className="nav-links">
@@ -43,7 +43,7 @@ const NavBar = ({ user, onLogout }) => {
               type="button"
               className="logout-btn"
             >
-              Polls
+              My Polls
             </button>
           </div>
         ) : (

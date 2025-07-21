@@ -10,7 +10,7 @@ import Home from "./components/Home";
 import NotFound from "./components/NotFound";
 import UserList from "./components/UserList";
 import { API_URL } from "./shared";
-import PollList from "./components/PollList";
+import PollList from "./components/MyPolls";
 import { Auth0Provider, useAuth0 } from "@auth0/auth0-react";
 import { auth0Config } from "./auth0-config";
 
@@ -48,7 +48,8 @@ const App = () => {
   const getPolls = async () => {
     try {
       const response = await axios.get(`${API_URL}/api/polls`, {
-        withCredentials: true,
+      params: { userId: user.id },   // Pass as query param
+      withCredentials: true
       });
       console.log(response.data);
       setPolls(response.data);
@@ -58,8 +59,10 @@ const App = () => {
   };
 
   useEffect(() => {
-    getPolls();
-  }, []);
+    if (user && user.id) {
+      getPolls();
+    }
+  }, [user]);
   
   // Handle Auth0 authentication
   useEffect(() => {
