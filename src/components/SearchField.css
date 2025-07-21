@@ -1,0 +1,17 @@
+.search-input {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+  padding: 0.5rem;
+}
+
+.search-input input[type="text"] {
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  border: 2px solid #ccc;
+  border-radius: 8px;
+  width: 250px;
+  transition: border-color 0.3s;
+}

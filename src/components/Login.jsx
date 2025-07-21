@@ -4,7 +4,7 @@ import axios from "axios";
 import { API_URL } from "../shared";
 import "./AuthStyles.css";
 
-const Login = ({ setUser , onAuth0Login}) => {
+const Login = ({ setUser, onAuth0Login }) => {
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -46,7 +46,10 @@ const Login = ({ setUser , onAuth0Login}) => {
       setUser(response.data.user);
       navigate("/");
     } catch (error) {
-      if (error.response?.data?.error) {
+      console.log(error.response); // Add this line for debugging
+      if (error.response?.data?.message === "This account has been disabled.") {
+        setErrors({ general: "This account is disabled." });
+      } else if (error.response?.data?.error) {
         setErrors({ general: error.response.data.error });
       } else {
         setErrors({ general: "An error occurred during login" });
@@ -92,9 +95,7 @@ const Login = ({ setUser , onAuth0Login}) => {
               onChange={handleChange}
               className={errors.email ? "error" : ""}
             />
-            {errors.email && (
-              <span className="error-text">{errors.email}</span>
-            )}
+            {errors.email && <span className="error-text">{errors.email}</span>}
           </div>
 
           <div className="form-group">
@@ -117,7 +118,7 @@ const Login = ({ setUser , onAuth0Login}) => {
           </button>
         </form>
 
-          <div className="auth-divider">
+        <div className="auth-divider">
           <span>or</span>
         </div>
 
