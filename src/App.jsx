@@ -14,6 +14,7 @@ import PollCreator from "./components/PollCreator";
 import PollList from "./components/PollList";
 import { Auth0Provider, useAuth0 } from "@auth0/auth0-react";
 import { auth0Config } from "./auth0-config";
+import SinglePoll from "./components/SinglePoll";
 
 const App = () => {
   const [user, setUser] = useState(null);
@@ -133,16 +134,29 @@ const App = () => {
       />
       <div className="app">
         <Routes>
-          <Route exact path="/" element={<Home />} />
-          <Route path="/login" element={<Login setUser={setUser} onAuth0Login={handleAuth0LoginClick} />} />
-          <Route path="/signup" element={<Signup setUser={setUser} onAuth0Login={handleAuth0LoginClick}/>} />
+          <Route exact path="/" element={<Home polls={polls} />} />
+          <Route
+            path="/login"
+            element={
+              <Login setUser={setUser} onAuth0Login={handleAuth0LoginClick} />
+            }
+          />
+          <Route
+            path="/signup"
+            element={
+              <Signup setUser={setUser} onAuth0Login={handleAuth0LoginClick} />
+            }
+          />
           <Route path="/userlist" element={<UserList setUser={setUser} />} />
-          <Route exact path="/polls" >
-            <Route index element={<PollList polls={polls} />} />
+          <Route exact path="/polls">
             <Route path="create" element={<PollCreator user={user} />} />
-            <Route path="edit/:pollId" element={<PollCreator user={user}/>} />
+            <Route path="edit/:pollId" element={<PollCreator user={user} />} />
+            <Route
+              path="/polls/:id"
+              element={<SinglePoll polls={polls} />}
+            ></Route>
           </Route>
-          <Route path="*" element={<NotFound />} /> 
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </div>
     </div>
