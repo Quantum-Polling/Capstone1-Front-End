@@ -7,7 +7,7 @@ const SearchField = ({ onSearch }) => {
   const handleChange = (e) => {
     const value = e.target.value;
     setQuery(value);
-    onSearch(value); // 🔁 Live search as user types
+    onSearch(value);
   };
 
   return (

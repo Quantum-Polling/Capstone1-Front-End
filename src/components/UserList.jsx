@@ -70,6 +70,32 @@ const UserList = () => {
     }
   };
 
+  const handleEnable = async (userId) => {
+    try {
+      // Call backend to enable the user
+      await axios.patch(
+        `${API_URL}/auth/${userId}/enable`,
+        {},
+        {
+          withCredentials: true,
+        }
+      );
+
+      // Refresh the user list from backend
+      const res = await axios.get(`${API_URL}/auth/users`, {
+        withCredentials: true,
+      });
+
+      setUsers(res.data);
+      setFilteredUsers(res.data);
+    } catch (err) {
+      console.error(
+        "Failed to Enable user:",
+        err.response?.data || err.message
+      );
+    }
+  };
+
   if (loading) return <div>Loading...</div>;
   if (error) return <div className="error-message">{error}</div>;
 
@@ -89,9 +115,17 @@ const UserList = () => {
               <p className="role">Role: {user.role || "N/A"}</p>
 
               {user.disabled ? (
-                <p style={{ color: "red", fontWeight: "bold" }}>
-                  Account Disabled
-                </p>
+                <>
+                  <p style={{ color: "red", fontWeight: "bold" }}>
+                    Account Disabled
+                  </p>
+                  <button
+                    className="enable-button"
+                    onClick={() => handleEnable(user.id)}
+                  >
+                    Enable
+                  </button>
+                </>
               ) : (
                 <button
                   className="disable-button"
