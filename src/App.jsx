@@ -133,16 +133,25 @@ const App = () => {
       />
       <div className="app">
         <Routes>
-          <Route exact path="/" element={<Home />} />
-          <Route path="/login" element={<Login setUser={setUser} onAuth0Login={handleAuth0LoginClick} />} />
-          <Route path="/signup" element={<Signup setUser={setUser} onAuth0Login={handleAuth0LoginClick}/>} />
+          <Route exact path="/" element={<Home polls={polls} />} />
+          <Route
+            path="/login"
+            element={
+              <Login setUser={setUser} onAuth0Login={handleAuth0LoginClick} />
+            }
+          />
+          <Route
+            path="/signup"
+            element={
+              <Signup setUser={setUser} onAuth0Login={handleAuth0LoginClick} />
+            }
+          />
           <Route path="/userlist" element={<UserList setUser={setUser} />} />
-          <Route exact path="/polls" >
-            <Route index element={<PollList polls={polls} />} />
+          <Route exact path="/polls">
             <Route path="create" element={<PollCreator user={user} />} />
-            <Route path="edit/:pollId" element={<PollCreator user={user}/>} />
+            <Route path="edit/:pollId" element={<PollCreator user={user} />} />
           </Route>
-          <Route path="*" element={<NotFound />} /> 
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </div>
     </div>
