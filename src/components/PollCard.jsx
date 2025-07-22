@@ -1,9 +1,14 @@
 import React from "react";
 import "./PollList.css";
+import { useNavigate } from "react-router";
 //pass down one poll at a time
 const PollCard = ({ poll }) => {
+  const navigate = useNavigate();
+  const handleClick = (id) => {
+    navigate(`/polls/${id}`);
+  };
   return (
-    <div className="poll-card">
+    <div className="poll-card" onClick={() => handleClick(poll.id)}>
       <div className="poll-title">{poll.title}</div>
       <div className="poll-author">
         Created by: {poll.creator.creatorFirstName}{" "}
