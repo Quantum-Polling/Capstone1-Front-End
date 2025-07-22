@@ -4,7 +4,7 @@
   background: #76abae;
   padding: 20px;
   width: 500px;
-  height: 158px;
+  min-height: 158px;
   margin: 15px;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   cursor: pointer;
@@ -58,6 +58,12 @@
 .poll-list {
   display: flex;
   flex-wrap: wrap;
+}
+
+h3 {
+  position: relative;
+  bottom: 9px;
+  font-size: 17px;
 }
 
 body {

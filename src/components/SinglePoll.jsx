@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { useParams } from "react-router";
 import axios from "axios";
 import { API_URL } from "../shared";
+import "./PollList.css";
 
 const SinglePoll = () => {
   const [poll, setPoll] = useState(null);
@@ -14,6 +15,7 @@ const SinglePoll = () => {
     try {
       await axios.get(`${API_URL}/api/polls/${id}`).then((response) => {
         setPoll(response.data.poll);
+        setLoading(false);
       });
     } catch (err) {
       console.error("error:", err);
@@ -21,8 +23,7 @@ const SinglePoll = () => {
   };
   useEffect(() => {
     getSinglePoll();
-    setLoading(false);
-  }, [id]);
+  }, []);
 
   if (loading) {
     return <p>Loading</p>;
@@ -30,9 +31,12 @@ const SinglePoll = () => {
 
   return (
     <div>
-      <ul>
-        {poll && poll.poll_options.map((option) => <li>{option.text} </li>)}
-      </ul>
+      <div className="poll-card">
+        <div className="poll-title">{poll.title}</div>
+        {poll.poll_options.map((option) => (
+          <h3>{option.text} </h3>
+        ))}
+      </div>
     </div>
   );
 };
