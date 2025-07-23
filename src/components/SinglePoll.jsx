@@ -8,8 +8,14 @@ import "./PollList.css";
 const SinglePoll = () => {
   const [poll, setPoll] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [ballot, setBallot] = useState([]);
   const params = useParams();
   const id = params.id;
+
+  const handleBallotClick = (option) => {
+    console.log("Option clicked:", option);
+    setBallot([...ballot, option]);
+  };
 
   const getSinglePoll = async () => {
     try {
@@ -33,10 +39,16 @@ const SinglePoll = () => {
     <div>
       <div className="poll-card">
         <div className="poll-title">{poll.title}</div>
-        {poll.poll_options.map((option) => (
-          <h3>{option.text} </h3>
-        ))}
+        <div
+          className="single-poll-options"
+          onClick={(e) => handleBallotClick(e.target.textContent)}
+        >
+          {poll.poll_options.map((option) => (
+            <h3>{option.text} </h3>
+          ))}
+        </div>
       </div>
+      <div className="ballot-container">{ballot}</div>
     </div>
   );
 };

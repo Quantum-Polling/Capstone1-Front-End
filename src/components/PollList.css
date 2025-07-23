@@ -43,6 +43,7 @@
   position: relative;
   left: 10px;
   bottom: 58px;
+  cursor: pointer;
 }
 
 .total-poll-votes {
@@ -65,6 +66,31 @@
   position: absolute;
   top: 10px;
   right: 10px;
+}
+
+.ballot-container {
+  position: relative;
+  border-radius: 25px;
+  background: #76abae;
+  padding: 20px;
+  width: 500px;
+  min-height: 158px;
+  margin: 15px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+}
+
+.single-poll-options {
+  text-align: left;
+  position: relative;
+  left: 0px;
+  bottom: 3px;
+  cursor: pointer;
+}
+
+.ballot-container:hover {
+  transform: translateY(-8px) scale(1.03);
+  box-shadow: 10px 10px 20px rgba(74, 67, 67, 0.5);
 }
 
 h3 {
