@@ -93,6 +93,17 @@
   box-shadow: 10px 10px 20px rgba(74, 67, 67, 0.5);
 }
 
+.ballot-options {
+  text-align: left;
+  position: relative;
+  left: 15px;
+  color: black;
+}
+
+/* br {
+  display: none;
+} */
+
 h3 {
   position: relative;
   bottom: 9px;

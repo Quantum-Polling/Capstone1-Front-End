@@ -52,7 +52,13 @@ const SinglePoll = () => {
           ))}
         </div>
       </div>
-      <div className="ballot-container">{ballot}</div>
+      <div className="ballot-container">
+        <ol className="ballot-options">
+          {ballot.map((opt) => (
+            <li>{opt}</li>
+          ))}
+        </ol>
+      </div>
     </div>
   );
 };
