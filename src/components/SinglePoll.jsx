@@ -14,7 +14,11 @@ const SinglePoll = () => {
 
   const handleBallotClick = (option) => {
     console.log("Option clicked:", option);
-    setBallot([...ballot, option]);
+    if (!ballot.includes(option)) {
+      setBallot([...ballot, option]);
+    } else {
+      console.log("thats already in the list bro");
+    }
   };
 
   const getSinglePoll = async () => {
