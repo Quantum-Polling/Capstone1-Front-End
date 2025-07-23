@@ -69,3 +69,9 @@ h3 {
 body {
   background: #31363f;
 }
+.poll-description {
+  margin-bottom: 18px; /* Adds space below the description */
+  position: relative;
+  top: 0;
+  left: 0;
+}
