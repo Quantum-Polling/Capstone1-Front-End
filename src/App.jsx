@@ -15,10 +15,12 @@ import PollList from "./components/PollList";
 import { Auth0Provider, useAuth0 } from "@auth0/auth0-react";
 import { auth0Config } from "./auth0-config";
 import SinglePoll from "./components/SinglePoll";
+import MyPolls from "./components/MyPolls";
 
 const App = () => {
   const [user, setUser] = useState(null);
   const [polls, setPolls] = useState([]);
+  const [myPolls, setMyPolls] = useState([]);
   const [isAuth, setIsAuth] = useState(false);
 
   const [loading, setLoading] = useState(true);
@@ -65,6 +67,25 @@ const App = () => {
   useEffect(() => {
     getPolls();
   }, []);
+
+  const getMyPolls = async () => {
+    try {
+      const response = await axios.get(`${API_URL}/api/polls/mypolls`, {
+        params: { userId: user.id },   // Pass as query param
+        withCredentials: true
+      });
+      console.log(response.data);
+      setMyPolls(response.data);
+    } catch (error) {
+      console.error("Error", error);
+    }
+  };
+
+  useEffect(() => {
+    if (user && user.id) {
+      getMyPolls();
+    }
+  }, [user]);
 
   // Handle Auth0 authentication
   useEffect(() => {
@@ -151,10 +172,8 @@ const App = () => {
           <Route exact path="/polls">
             <Route path="create" element={<PollCreator user={user} />} />
             <Route path="edit/:pollId" element={<PollCreator user={user} />} />
-            <Route
-              path="/polls/:id"
-              element={<SinglePoll polls={polls} />}
-            ></Route>
+            <Route path="/polls/:id" element={<SinglePoll polls={polls} />} />
+            <Route path="mypolls" element={<MyPolls polls={myPolls} />} />
           </Route>
           <Route path="*" element={<NotFound />} />
         </Routes>

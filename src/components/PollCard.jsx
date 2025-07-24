@@ -27,6 +27,7 @@ const PollCard = ({ poll }) => {
         <div className="total-poll-votes">
           {poll.poll_votes.length} total votes
         </div>
+        <div className="poll-status"></div>
       </div>
     </div>
   );

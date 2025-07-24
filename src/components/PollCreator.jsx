@@ -180,6 +180,9 @@ const PollCreator = ({ user }) => {
         console.error("Error loading poll:", error);
         navigate("/polls/create");
       }
+    } else {
+      setAuthorized(true);
+      setDisabled(false);
     }
 
     setLoading(false);
@@ -215,128 +218,129 @@ const PollCreator = ({ user }) => {
           <h1>This poll cannot be edited</h1>
         </div>
       }
-      <fieldset disabled={disabled}>
         
-        { /* Title */
-          disabled ? (
-            <div className="poll-title">
-              <h1>{title}</h1>
-            </div>
-          ) : (
-            <input
-              type="text"
-              className="poll-title"
-              placeholder="Untitled Poll"
-              value={title}
-              onChange={editTitle}
-            />
-          )
-        }
-        
-        <label><h4>Description</h4></label>
-        { /* Description */
-          disabled ? (
-            <div className="poll-description">
-              <p>{description}</p>
-            </div>
-          ) : (
-            <textarea
-              className="poll-description"
-              rows={4}
-              cols={30}
-              value={description}
-              onChange={editDescription}
-            />
-          )
-        }
-      
-        <div className="panel">
-          <div className="privacy-select">
-            <label className="header">
-              <h4>Privacy</h4>
-            </label>
-            <br />
-
-            { /* Privacy */
-              disabled ? (
-                <p>{open ? "Public": "Accounts Only"}</p>
-              ) : (
-                <div>
-                  <input 
-                    type="radio" 
-                    name="privacy" 
-                    id="public"
-                    checked={open}
-                    onChange={() => {setOpen(true)}}
-                  />
-                  <label htmlFor="public">&nbsp;Public</label>
-      
-                  <input 
-                    type="radio" 
-                    name="privacy" 
-                    id="restricted" 
-                    checked={!open}
-                    onChange={() => {setOpen(false)}}
-                  />
-                  <label htmlFor="restricted">&nbsp;Accounts Only</label>
-                </div>
-              )
-            }
+      { /* Title */
+        disabled ? (
+          <div className="poll-title">
+            <h1>{title}</h1>
           </div>
-
-          <div className="date-picker">
-            { /* End Date */
-              disabled ? (
-                <div>
-                  <label>
-                    <h4>End Date</h4>
-                  </label>
-                  <p>{endDate ? endDate : "Manual"}</p>
-                </div>
-              ) : (
-                <LocalizationProvider dateAdapter={AdapterDayjs}>
-                  <DatePicker
-                    disablePast
-                    label="End Date (Optional)"
-                    value={endDate ? dayjs(endDate, 'YYYY-MM-DD') : null }
-                    onChange={(date) => {editDate(date)}}
-                    slotProps={{
-                      layout: {
-                        sx: { boxShadow: "0 4px 8px 0 #00000068, 0 6px 20px 0 #00000060" }
-                      }
-                    }}
-                  />
-                </LocalizationProvider>
-              )
-            }
+        ) : (
+          <input
+            type="text"
+            className="poll-title"
+            placeholder="Untitled Poll"
+            value={title}
+            onChange={editTitle}
+          />
+        )
+      }
+      
+      <label><h4>Description</h4></label>
+      { /* Description */
+        disabled ? (
+          <div className="poll-description">
+            <p>{description}</p>
           </div>
+        ) : (
+          <textarea
+            className="poll-description"
+            rows={4}
+            cols={30}
+            value={description}
+            onChange={editDescription}
+          />
+        )
+      }
+    
+      <div className="panel">
+        <div className="privacy-select">
+          <label className="header">
+            <h4>Privacy</h4>
+          </label>
+          <br />
+
+          { /* Privacy */
+            disabled ? (
+              <p>{open ? "Public": "Accounts Only"}</p>
+            ) : (
+              <div>
+                <input 
+                  type="radio" 
+                  name="privacy" 
+                  id="public"
+                  checked={open}
+                  onChange={() => {setOpen(true)}}
+                />
+                <label htmlFor="public">&nbsp;Public</label>
+    
+                <input 
+                  type="radio" 
+                  name="privacy" 
+                  id="restricted" 
+                  checked={!open}
+                  onChange={() => {setOpen(false)}}
+                />
+                <label htmlFor="restricted">&nbsp;Accounts Only</label>
+              </div>
+            )
+          }
         </div>
 
-        <label><h4>Options</h4></label>
-        <OptionInputList options={options} setOptions={setOptions} disabled={disabled}/>
-        
-        { /* Errors */
-          (titleError || descriptionError || optionsErrors.length > 0) &&
-          <div className="errors">
-            <ul>
-              {titleError && <li>{titleError}</li>}
-              {descriptionError && <li>{descriptionError}</li>}
-              {optionsErrors.length > 0 &&
-                optionsErrors.map((error, index) => (
-                  <li key={"Opt Err " + index}>{error}</li>
-                ))}
-            </ul>
-          </div>
-        }
+        <div className="date-picker">
+          { /* End Date */
+            disabled ? (
+              <div>
+                <label>
+                  <h4>End Date</h4>
+                </label>
+                <p>{endDate ? endDate : "Manual"}</p>
+              </div>
+            ) : (
+              <LocalizationProvider dateAdapter={AdapterDayjs}>
+                <DatePicker
+                  disablePast
+                  label="End Date (Optional)"
+                  value={endDate ? dayjs(endDate, 'YYYY-MM-DD') : null }
+                  onChange={(date) => {editDate(date)}}
+                  slotProps={{
+                    field: {
+                      readOnly: true
+                    },
+                    layout: {
+                      sx: { boxShadow: "0 4px 8px 0 #00000068, 0 6px 20px 0 #00000060" }
+                    }
+                  }}
+                />
+              </LocalizationProvider>
+            )
+          }
+        </div>
+      </div>
 
-        { /* Save and Publish Buttons */
-          !disabled &&
-          <div className="submit-buttons">
-            <button type="button" onClick={handleSave}>Save Draft</button>
-            <button type="submit">Publish</button>
-          </div>
-        }
-      </fieldset>
+      <label><h4>Options</h4></label>
+      <OptionInputList options={options} setOptions={setOptions} disabled={disabled}/>
+      
+      { /* Errors */
+        (titleError || descriptionError || optionsErrors.length > 0) &&
+        <div className="errors">
+          <ul>
+            {titleError && <li>{titleError}</li>}
+            {descriptionError && <li>{descriptionError}</li>}
+            {optionsErrors.length > 0 &&
+              optionsErrors.map((error, index) => (
+                <li key={"Opt Err " + index}>{error}</li>
+              ))}
+          </ul>
+        </div>
+      }
+
+      { /* Save and Publish Buttons */
+        !disabled &&
+        <div className="submit-buttons">
+          <button type="button" onClick={handleSave}>Save Draft</button>
+          <button type="submit">Publish</button>
+        </div>
+      }
     </form>
   );
 };
