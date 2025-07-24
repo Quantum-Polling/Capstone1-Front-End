@@ -151,10 +151,7 @@ const App = () => {
           <Route exact path="/polls">
             <Route path="create" element={<PollCreator user={user} />} />
             <Route path="edit/:pollId" element={<PollCreator user={user} />} />
-            <Route
-              path="/polls/:id"
-              element={<SinglePoll polls={polls} />}
-            ></Route>
+            <Route path=":id" element={<SinglePoll polls={polls} />}></Route>
           </Route>
           <Route path="*" element={<NotFound />} />
         </Routes>
