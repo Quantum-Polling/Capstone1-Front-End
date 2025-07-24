@@ -104,10 +104,20 @@
   display: none;
 } */
 
-h3 {
+.single-poll-options h3 {
   position: relative;
   bottom: 9px;
   font-size: 17px;
+  border: 1px solid grey;
+  border-radius: 20px;
+  padding: 10px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  background-color: #73a8ab;
+}
+
+.single-poll-options h3:hover {
+  transform: translateY(-8px) scale(1.03);
+  box-shadow: 10px 10px 20px rgba(74, 67, 67, 0.5);
 }
 
 body {

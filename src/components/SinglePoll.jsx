@@ -9,7 +9,7 @@ const SinglePoll = () => {
   const [poll, setPoll] = useState(null);
   const [loading, setLoading] = useState(true);
   const [ballot, setBallot] = useState([]);
-  const [isDisabled, setIsDisabled] = useState(false);
+  const [isDisabled, setIsDisabled] = useState([]);
   const params = useParams();
   const id = params.id;
 
@@ -21,14 +21,25 @@ const SinglePoll = () => {
   //   }
   // };
 
-  const handleBallotClick = (option) => {
-    console.log("Option clicked:", option);
+  const handleBallotClick = (option, index) => {
+    // console.log("Option clicked:", option);
+    // // setIsDisabled(false);
+    // if (!ballot.includes(option)) {
+    //   setBallot([...ballot, option]);
+    //   // setIsDisabled(true);
+    // } else {
+    //   console.log("thats already in the list bro");
+    // }
+
+    console.log("option clicked", option);
     if (!ballot.includes(option)) {
-      if (setBallot([...ballot, option])) {
-        setIsDisabled(true);
-      }
-    } else {
-      console.log("thats already in the list bro");
+      console.log("hello");
+      setBallot([...ballot, option]);
+      setIsDisabled([
+        ...isDisabled.slice(0, index),
+        true,
+        ...isDisabled.slice(index + 1),
+      ]);
     }
   };
 
@@ -36,6 +47,9 @@ const SinglePoll = () => {
     try {
       await axios.get(`${API_URL}/api/polls/${id}`).then((response) => {
         setPoll(response.data.poll);
+        setIsDisabled(
+          new Array(response.data.poll.poll_options.length).fill(false)
+        );
         setLoading(false);
       });
     } catch (err) {
@@ -56,15 +70,25 @@ const SinglePoll = () => {
         <div className="poll-title">{poll.title}</div>
         <div
           className="single-poll-options"
-          style={{
-            cursor: isDisabled ? "not-allowed" : "pointer",
-          }}
-          onClick={(e) =>
-            !isDisabled && handleBallotClick(e.target.textContent)
-          }
+          // style={{
+          //   cursor: isDisabled ? "not-allowed" : "pointer",
+          // }}
+          // onClick={(e) =>
+          //   !isDisabled && handleBallotClick(e.target.textContent)
+          // }
         >
-          {poll.poll_options.map((option) => (
-            <h3>{option.text} </h3>
+          {poll.poll_options.map((option, index) => (
+            <h3
+              style={{
+                cursor: isDisabled[index] ? "not-allowed" : "pointer",
+              }}
+              onClick={(e) =>
+                !isDisabled[index] &&
+                handleBallotClick(e.target.textContent, index)
+              }
+            >
+              {option.text}{" "}
+            </h3>
           ))}
         </div>
       </div>
