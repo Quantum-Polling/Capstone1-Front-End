@@ -13,27 +13,9 @@ const SinglePoll = () => {
   const params = useParams();
   const id = params.id;
 
-  // const handleDisabler = (opt) => {
-  //   if (!ballot.includes(opt)) {
-  //     setBallot([...ballot, option]);
-  //     setIsDisabled(true);
-  //     console.log("this option is disabled because it was already chosen");
-  //   }
-  // };
-
   const handleBallotClick = (option, index) => {
-    // console.log("Option clicked:", option);
-    // // setIsDisabled(false);
-    // if (!ballot.includes(option)) {
-    //   setBallot([...ballot, option]);
-    //   // setIsDisabled(true);
-    // } else {
-    //   console.log("thats already in the list bro");
-    // }
-
     console.log("option clicked", option);
     if (!ballot.includes(option)) {
-      console.log("hello");
       setBallot([...ballot, option]);
       setIsDisabled([
         ...isDisabled.slice(0, index),
@@ -68,15 +50,8 @@ const SinglePoll = () => {
     <div>
       <div className="poll-card">
         <div className="poll-title">{poll.title}</div>
-        <div
-          className="single-poll-options"
-          // style={{
-          //   cursor: isDisabled ? "not-allowed" : "pointer",
-          // }}
-          // onClick={(e) =>
-          //   !isDisabled && handleBallotClick(e.target.textContent)
-          // }
-        >
+        <div className="poll-desc">{poll.description}</div>
+        <div className="single-poll-options">
           {poll.poll_options.map((option, index) => (
             <h3
               style={{
@@ -93,10 +68,7 @@ const SinglePoll = () => {
         </div>
       </div>
       <div className="ballot-container">
-        <ol
-          className="ballot-options"
-          // onClick={(e) => isDisabled && handleDisabler(e.target.textContent)}
-        >
+        <ol className="ballot-options">
           {ballot.map((opt) => (
             <li>{opt}</li>
           ))}

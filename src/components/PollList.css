@@ -16,9 +16,10 @@
 }
 
 .poll-desc {
-  top: 18px;
-  left: 1px;
+  text-align: left;
   position: relative;
+  bottom: 18px;
+  text-decoration: underline;
 }
 
 .poll-author {
@@ -100,10 +101,6 @@
   color: black;
 }
 
-/* br {
-  display: none;
-} */
-
 .single-poll-options h3 {
   position: relative;
   bottom: 9px;
@@ -113,6 +110,7 @@
   padding: 10px;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   background-color: #73a8ab;
+  margin-bottom: 1em;
 }
 
 .single-poll-options h3:hover {
