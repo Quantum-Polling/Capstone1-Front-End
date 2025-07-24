@@ -33,9 +33,15 @@ const SinglePoll = () => {
     <div>
       <div className="poll-card">
         <div className="poll-title">{poll.title}</div>
+        <h2 className="poll-description">{poll.description}</h2>
         {poll.poll_options.map((option) => (
-          <h3>{option.text} </h3>
+          <React.Fragment key={option._id || option.id}>
+            <h3>{option.text}</h3>
+          </React.Fragment>
         ))}
+        <div className="poll-close-date">
+          Closes: {poll.close_date ? poll.close_date : "Manually"}
+        </div>
       </div>
     </div>
   );
