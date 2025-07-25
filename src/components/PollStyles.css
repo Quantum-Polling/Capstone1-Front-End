@@ -121,6 +121,7 @@ input.poll-title {
   padding: 1rem;
   text-align: center;
   position: relative;
+  width: 270px;
 }
 
 .poll-results .previous,
@@ -131,8 +132,9 @@ input.poll-title {
   color: black;
   background-color: white;
   position: absolute;
-  top: 100px;
+  top: 150px;
   bottom: auto;
+  z-index: 1;
 }
 
 .poll-results .previous:hover,
@@ -146,6 +148,14 @@ input.poll-title {
 
 .poll-results .next {
   right: -10px;
+}
+
+.poll-results .disabled {
+  background-color: gray;
+}
+
+.poll-results .disabled:hover {
+  cursor: default;
 }
 
 .arrow {
@@ -169,7 +179,12 @@ input.poll-title {
   -webkit-transform: rotate(135deg);
 }
 
-.poll-results h1, .poll-results h3 {
-  margin: 0;
-  padding: 0;
+.winner-list {
+  margin-top: 0.5rem;
+  margin-bottom: 2rem;
+  color: lightblue;
+}
+
+.final-round-message {
+  color: lightcoral;
 }
