@@ -135,6 +135,11 @@ input.poll-title {
   bottom: auto;
 }
 
+.poll-results .previous:hover,
+.poll-results .next:hover {
+  cursor: pointer;
+}
+
 .poll-results .previous {
   left: -10px;
 }
