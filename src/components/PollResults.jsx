@@ -14,18 +14,18 @@ const PollResults = () => {
   const [data, setData] = useState([]);
   
   /* REMOVE LATER */
-  const { pollId } = useParams();
+  const { id } = useParams();
   const [options, setOptions] = useState([]);
 
   const loadResults = async () => {
-    if (!pollId)
+    if (!id)
       return <p>Cannot load poll results without poll ID</p>
 
     /* REMOVE LATER AFTER TESTING: THIS WILL BE PASSED AS A PROP */
     let poll = {};
     let options = [];
     try {
-      const pollResponse = await axios.get(`${API_URL}/api/polls/${pollId}`);
+      const pollResponse = await axios.get(`${API_URL}/api/polls/${id}`);
       poll = pollResponse.data.poll;
       options = poll.poll_options;
       setOptions(options);
@@ -36,7 +36,7 @@ const PollResults = () => {
     }
     /* END REMOVE LATER */
 
-    const response = await axios.get(`${API_URL}/api/polls/${pollId}/results`);
+    const response = await axios.get(`${API_URL}/api/polls/${id}/results`);
     const results = response.data.results;
     console.log("POLL RESULTS:", results);
     setResults(results);
