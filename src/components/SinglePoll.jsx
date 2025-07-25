@@ -47,6 +47,7 @@ const SinglePoll = () => {
   }
 
   return (
+    <div>
       <div className="poll-list">
         <div className="poll-card">
           <div className="poll-title">{poll.title}</div>
