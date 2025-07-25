@@ -34,32 +34,34 @@ const RoundResults = ({ data, round, setRound, maxRounds }) => {
       }
       <h2>Round {round}</h2>
       <h5>Hover to view individual results</h5>
-      <Stack width="100%" direction="row" flexWrap="wrap">
-        <PieChart 
-          series={[
-            {
-              innerRadius: 45,
-              outerRadius: 60,
-              startAngle: -100,
-              endAngle: 100,
-              cy: "75%",
-              data: data,
-            },
-          ]}
-          height={100}
-          slotProps={{
-            legend: {
-              direction: "horizontal",
-              position: {
-                vertical: "bottom",
+      <div className="chart">
+        <Stack width="85%" direction="row" flexWrap="wrap">
+          <PieChart 
+            series={[
+              {
+                innerRadius: 45,
+                outerRadius: 60,
+                startAngle: -100,
+                endAngle: 100,
+                cy: "75%",
+                data: data,
               },
-              sx: {
-                color: "white",
+            ]}
+            height={100}
+            slotProps={{
+              legend: {
+                direction: "horizontal",
+                position: {
+                  vertical: "bottom",
+                },
+                sx: {
+                  color: "white",
+                }
               }
-            }
-          }}
-        />
-      </Stack>
+            }}
+          />
+        </Stack>
+      </div>
     </div>
   );
 }

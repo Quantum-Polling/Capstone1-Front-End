@@ -121,7 +121,22 @@ input.poll-title {
   padding: 1rem;
   text-align: center;
   position: relative;
-  width: 270px;
+  width: 400px;
+}
+
+.poll-results .info {
+  padding-bottom: 1rem;
+  margin-bottom: 1rem;
+  border-bottom: 1px solid white;
+}
+
+.poll-results .title {
+  font-size: 2rem;
+  margin: 0;
+}
+
+.poll-results .description {
+  margin-top: 1rem;
 }
 
 .poll-results .previous,
@@ -132,7 +147,7 @@ input.poll-title {
   color: black;
   background-color: white;
   position: absolute;
-  top: 150px;
+  top: 250px;
   bottom: auto;
   z-index: 1;
 }
@@ -158,13 +173,18 @@ input.poll-title {
   cursor: default;
 }
 
+.poll-results .chart {
+  display: flex;
+  justify-content: center;
+}
+
 .arrow {
   border: solid black;
   border-width: 0 3px 3px 0;
   display: inline-block;
   position: relative;
   padding: 3px;
-  top: 1px;
+  top: 2px;
 }
 
 .right {
