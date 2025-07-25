@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { API_URL } from "../shared";
 import RoundResults from "./RoundResults";
 import axios from "axios";
@@ -7,6 +7,7 @@ import "./PollStyles.css";
 
 
 const PollResults = () => {
+  const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
   const [results, setResults] = useState([]);
   const [winners, setWinners] = useState([]);
@@ -26,6 +27,9 @@ const PollResults = () => {
     try {
       const pollResponse = await axios.get(`${API_URL}/api/polls/${id}`);
       const pollData = pollResponse.data.poll;
+      if (pollData.status !== "Closed")
+        navigate("../");
+
       setPoll(pollData);
 
       const pollOptions = pollData.poll_options;
