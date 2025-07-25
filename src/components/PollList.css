@@ -94,11 +94,21 @@
   box-shadow: 10px 10px 20px rgba(74, 67, 67, 0.5);
 }
 
-.ballot-options {
+.single-ballot-choices li {
   text-align: left;
   position: relative;
-  left: 15px;
-  color: black;
+  top: 47px;
+  left: 7px;
+  border-radius: 20px;
+  padding: 10px;
+  border: 1px solid grey;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  margin-bottom: 1em;
+}
+
+.single-ballot-choices li:hover {
+  transform: translateY(-8px) scale(1.03);
+  box-shadow: 10px 10px 20px rgba(74, 67, 67, 0.5);
 }
 
 .single-poll-options h3 {
