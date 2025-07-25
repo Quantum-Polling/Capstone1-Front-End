@@ -32,7 +32,7 @@ const RoundResults = ({ data, round, setRound, maxRounds }) => {
       { round === maxRounds && 
         <h5 className="final-round-message">Final Round</h5>
       }
-      <h1>Round {round}</h1>
+      <h2>Round {round}</h2>
       <h5>Hover to view individual results</h5>
       <Stack width="100%" direction="row" flexWrap="wrap">
         <PieChart 

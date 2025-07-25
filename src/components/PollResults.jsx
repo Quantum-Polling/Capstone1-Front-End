@@ -91,10 +91,10 @@ const PollResults = () => {
   
   return (
     <div className="poll-results drop-shadow">
-      <h1>Winner{winners.length > 1 && "s"}:</h1>
-      <h3 className="winner-list">{
+      <h2>Winner{winners.length > 1 && "s"}:</h2>
+      <h4 className="winner-list">{
         winners.join(", ")
-      }</h3>
+      }</h4>
       <RoundResults 
         data={data}
         round={round}
