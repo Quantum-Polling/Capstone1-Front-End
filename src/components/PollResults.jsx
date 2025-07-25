@@ -13,36 +13,33 @@ const PollResults = () => {
   const [round, setRound] = useState(0);
   const [data, setData] = useState([]);
   
-  /* REMOVE LATER */
   const { id } = useParams();
+  const [poll, setPoll] = useState({});
   const [options, setOptions] = useState([]);
 
   const loadResults = async () => {
-    if (!id)
-      return <p>Cannot load poll results without poll ID</p>
+    if (!id){
+      console.error("Cannot load poll results without poll ID");
+      return;
+    }
 
-    /* REMOVE LATER AFTER TESTING: THIS WILL BE PASSED AS A PROP */
-    let poll = {};
-    let options = [];
     try {
       const pollResponse = await axios.get(`${API_URL}/api/polls/${id}`);
-      poll = pollResponse.data.poll;
-      options = poll.poll_options;
-      setOptions(options);
-      console.log("POLL RESULTS OPTIONS:", options);
+      const pollData = pollResponse.data.poll;
+      setPoll(pollData);
+
+      const pollOptions = pollData.poll_options;
+      setOptions(pollOptions);
+
+      const response = await axios.get(`${API_URL}/api/polls/${id}/results`);
+      const results = response.data.results;
+      setResults(results);
+      setWinners(getWinners(results[results.length - 1], pollOptions));
+      setRound(1);
+      setLoading(false);
     } catch (error) {
       console.error(error);
-      return <p>{error}</p>;
     }
-    /* END REMOVE LATER */
-
-    const response = await axios.get(`${API_URL}/api/polls/${id}/results`);
-    const results = response.data.results;
-    console.log("POLL RESULTS:", results);
-    setResults(results);
-    setWinners(getWinners(results[results.length - 1], options));
-    setRound(1);
-    setLoading(false);
   };
 
   const getWinners = (finalRound, options) => {
@@ -91,6 +88,11 @@ const PollResults = () => {
   
   return (
     <div className="poll-results drop-shadow">
+      <div className="info">
+        <h1 className="title">{poll.title}</h1>
+        <h5 className="creator">By {poll.creatorName}</h5>
+        <h4 className="description">{poll.description}</h4>
+      </div>
       <h2>Winner{winners.length > 1 && "s"}:</h2>
       <h4 className="winner-list">{
         winners.join(", ")
