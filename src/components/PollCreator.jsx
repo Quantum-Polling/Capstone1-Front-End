@@ -159,10 +159,9 @@ const PollCreator = ({ user }) => {
 
         // Verify that the user can edit this poll
         const isOwner = poll.creatorId === user.id;
-        if (!isOwner) {
-          setAuthorized(isOwner);
+        setAuthorized(isOwner);
+        if (!isOwner)
           break loadPoll;
-        }
 
         setId(poll.id);
         setTitle(poll.title === "Untitled Poll" ? "" : poll.title);
