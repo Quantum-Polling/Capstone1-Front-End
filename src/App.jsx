@@ -11,11 +11,11 @@ import NotFound from "./components/NotFound";
 import UserList from "./components/UserList";
 import { API_URL } from "./shared";
 import PollCreator from "./components/PollCreator";
-import PollList from "./components/PollList";
 import { Auth0Provider, useAuth0 } from "@auth0/auth0-react";
 import { auth0Config } from "./auth0-config";
 import SinglePoll from "./components/SinglePoll";
 import MyPolls from "./components/MyPolls";
+import PollResults from "./components/PollResults";
 
 const App = () => {
   const [user, setUser] = useState(null);
@@ -169,12 +169,15 @@ const App = () => {
             }
           />
           <Route path="/userlist" element={<UserList setUser={setUser} />} />
-          <Route exact path="/polls">
+          <Route path="/polls">
             <Route path="create" element={<PollCreator user={user} />} />
-            <Route path="edit/:pollId" element={<PollCreator user={user} />} />
-            <Route path=":id" element={<SinglePoll polls={polls} />}></Route>
+            <Route path=":id">
+              <Route index element={<SinglePoll polls={polls} />} />
+              <Route path="edit" element={<PollCreator user={user} />} />
+              <Route path="results" element={<PollResults />} />
+            </Route>
             <Route path="mypolls" element={<MyPolls polls={myPolls} />} />
-
+            
           </Route>
           <Route path="*" element={<NotFound />} />
         </Routes>
