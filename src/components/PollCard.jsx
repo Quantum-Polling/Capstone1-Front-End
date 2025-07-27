@@ -10,6 +10,7 @@ const PollCard = ({ poll }) => {
   return (
     <div className="poll-card" onClick={() => handleClick(poll.id)}>
       <div className="poll-title">{poll.title}</div>
+      {/* Add this line */}
       <div className="poll-author">
         Created by: {poll.creator.creatorFirstName}{" "}
         {poll.creator.creatorLastName}

@@ -131,3 +131,9 @@
 body {
   background: #31363f;
 }
+.poll-description {
+  margin-bottom: 18px;
+  position: relative;
+  top: 0;
+  left: 0;
+}
