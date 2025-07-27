@@ -19,7 +19,6 @@ import PollResults from "./components/PollResults";
 
 const App = () => {
   const [user, setUser] = useState(null);
-  const [polls, setPolls] = useState([]);
   const [isAuth, setIsAuth] = useState(false);
 
   const [loading, setLoading] = useState(true);
@@ -49,22 +48,6 @@ const App = () => {
   // Check authentication status on app load
   useEffect(() => {
     checkAuth();
-  }, []);
-
-  const getPolls = async () => {
-    try {
-      const response = await axios.get(`${API_URL}/api/polls`, {
-        withCredentials: true,
-      });
-      console.log(response.data);
-      setPolls(response.data);
-    } catch (error) {
-      console.error("Error", error);
-    }
-  };
-
-  useEffect(() => {
-    getPolls();
   }, []);
 
   // Handle Auth0 authentication
@@ -135,7 +118,7 @@ const App = () => {
       />
       <div className="app">
         <Routes>
-          <Route exact path="/" element={<Home polls={polls} />} />
+          <Route exact path="/" element={<Home />} />
           <Route
             path="/login"
             element={
@@ -152,7 +135,7 @@ const App = () => {
           <Route path="/polls">
             <Route path="create" element={<PollCreator user={user} />} />
             <Route path=":id">
-              <Route index element={<SinglePoll polls={polls} />} />
+              <Route index element={<SinglePoll />} />
               <Route path="edit" element={<PollCreator user={user} />} />
               <Route path="results" element={<PollResults />} />
             </Route>
