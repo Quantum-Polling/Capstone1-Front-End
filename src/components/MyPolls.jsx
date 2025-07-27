@@ -80,7 +80,7 @@ const MyPolls = ({ user }) => {
                     value={poll.id}
                     onClick={deleteDraft}
                   >
-                    Delete Draft
+                    Delete
                   </button>
                 }
                 { /* Manually Close Poll Button */
@@ -90,7 +90,7 @@ const MyPolls = ({ user }) => {
                     value={poll.id}
                     onClick={closePoll}
                   >
-                    Close Poll
+                    Close
                   </button>
                 }
               </div>
