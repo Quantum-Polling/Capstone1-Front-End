@@ -1,19 +1,28 @@
 import React from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { API_URL } from "../shared";
+import axios from "axios";
 import "./MyPolls.css";
 
-const MyPolls = ({ polls, getPolls }) => {
+const MyPolls = ({ user, polls, getPolls }) => {
   const navigate = useNavigate();
 
-  const deleteDraft = (event) => {
-    const pollId = event.target.value;
-    console.log("Delete Draft");
+  const deleteDraft = async (event) => {
     event.stopPropagation();
+    const pollId = event.target.value;
+    if (window.confirm("Are you sure you want to delete this draft?")) {
+      try {
+        const response = await axios.delete(`${API_URL}/api/polls/${user.id}/delete/${pollId}`);
+        getPolls();
+      } catch (error) {
+        console.error(error);
+      }
+    }
   }
 
   const closePoll = (event) => {
     const pollId = event.target.value;
-    console.log("Close Poll");
+    console.log("Close Poll", pollId);
     event.stopPropagation();
   }
 
