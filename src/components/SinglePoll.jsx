@@ -76,6 +76,7 @@ const SinglePoll = () => {
               </li>
             ))}
           </ol>
+          <button type="submit">Submit Ballot</button>
         </div>
       </div>
     </div>

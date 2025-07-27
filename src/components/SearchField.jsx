@@ -14,7 +14,7 @@ const SearchField = ({ onSearch }) => {
     <form className="search-input" onSubmit={(e) => e.preventDefault()}>
       <input
         type="text"
-        placeholder="Search for Users..."
+        placeholder="Search..."
         value={query}
         onChange={handleChange}
       />
