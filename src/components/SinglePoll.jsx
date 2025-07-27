@@ -48,48 +48,37 @@ const SinglePoll = () => {
 
   return (
     <div>
-<<<<<<< HEAD
       <div className="poll-card">
         <div className="poll-title">{poll.title}</div>
         <h2 className="poll-description">{poll.description}</h2>
-        {poll.poll_options.map((option) => (
-          <React.Fragment key={option._id || option.id}>
-            <h3>{option.text}</h3>
-          </React.Fragment>
-        ))}
+        <div className="single-poll-options">
+          {poll.poll_options.map((option, index) => (
+            <h3
+              key={option._id || option.id}
+              style={{
+                cursor: isDisabled[index] ? "not-allowed" : "pointer",
+              }}
+              onClick={(e) =>
+                !isDisabled[index] &&
+                handleBallotClick(e.target.textContent, index)
+              }
+            >
+              {option.text}
+            </h3>
+          ))}
+        </div>
         <div className="poll-close-date">
           Closes: {poll.close_date ? poll.close_date : "Manually"}
-=======
-      <div className="poll-list">
-        <div className="poll-card">
-          <div className="poll-title">{poll.title}</div>
-          <div className="poll-desc">{poll.description}</div>
-          <div className="single-poll-options">
-            {poll.poll_options.map((option, index) => (
-              <h3
-                style={{
-                  cursor: isDisabled[index] ? "not-allowed" : "pointer",
-                }}
-                onClick={(e) =>
-                  !isDisabled[index] &&
-                  handleBallotClick(e.target.textContent, index)
-                }
-              >
-                {option.text}{" "}
-              </h3>
-            ))}
-          </div>
         </div>
-        <div className="ballot-container">
-          <ol className="single-ballot-choices">
-            {ballot.map((opt) => (
-              <li>
-                <h3>{opt}</h3>
-              </li>
-            ))}
-          </ol>
->>>>>>> main
-        </div>
+      </div>
+      <div className="ballot-container">
+        <ol className="single-ballot-choices">
+          {ballot.map((opt, i) => (
+            <li key={i}>
+              <h3>{opt}</h3>
+            </li>
+          ))}
+        </ol>
       </div>
     </div>
   );
