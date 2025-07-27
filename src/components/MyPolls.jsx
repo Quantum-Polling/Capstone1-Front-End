@@ -9,7 +9,13 @@ const MyPolls = ({ polls }) => {
       {polls.length > 0 ? (
         polls.map((poll) => (
           <Link to={`/polls/${poll.id}`} key={poll.id} className="polls-link">
-            <div className="polls-card">
+            <div 
+              className={`polls-card
+                ${poll.disabled ? "disabled" : 
+                  poll.status === "Draft" ? "draft" :
+                  poll.status === "Open" ? "open" : "closed"
+                }`} 
+            >
               <h3>{poll.title}</h3>
               <h4>{poll.description}</h4>
               <h5>{poll.status}</h5>
