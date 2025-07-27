@@ -17,7 +17,7 @@ const NavBar = ({ user, onLogout }) => {
         {user ? (
           <div className="user-section">
             <span className="username">
-              Welcome, {user.firstName} {user.lastName} !
+              Welcome, {user.firstName} {user.lastName}!
             </span>
             {user.avatarURL && (
               <img
@@ -30,20 +30,17 @@ const NavBar = ({ user, onLogout }) => {
             <div className="admin-links">
               {user?.role?.toLowerCase() === "admin" && (
                 <Link to="/userlist" className="nav-link">
-                  UserList
+                  User List
                 </Link>
               )}
             </div>
 
-            <button onClick={onLogout} className="logout-btn">
-              Logout
-            </button>
             <button
-              onClick={() => navigate("/polls")}
+              onClick={() => navigate("/polls/create")}
               type="button"
               className="logout-btn"
             >
-              Polls
+              Create
             </button>
             <button
               onClick={() => navigate("/polls/mypolls")}
@@ -51,6 +48,9 @@ const NavBar = ({ user, onLogout }) => {
               className="logout-btn"
             >
             My Polls
+            </button>
+            <button onClick={onLogout} className="logout-btn">
+              Logout
             </button>
           </div>
         ) : (
