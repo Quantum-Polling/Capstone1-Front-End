@@ -18,7 +18,11 @@ const MyPolls = ({ polls, getPolls }) => {
       {polls.length > 0 ? (
         polls.map((poll) => (
           <Link 
-            to={`/polls/${poll.id}`} 
+            to={`/polls/${poll.id}${
+              poll.status === "Draft" ? "/edit" :
+              poll.status === "Closed" ? "/results" : ""
+              }`
+            } 
             key={poll.id} 
             className="polls-link"
           >
