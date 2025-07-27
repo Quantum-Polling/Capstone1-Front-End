@@ -38,9 +38,11 @@ const MyPolls = ({ polls, getPolls }) => {
                   poll.status === "Open" ? "open" : "closed"
                 }`} 
             >
-              <h3>{poll.title}</h3>
-              <h4>{poll.description}</h4>
-              <h5>{poll.status}</h5>
+              <div className="details">
+                <h3>{poll.title}</h3>
+                <h4>{poll.description}</h4>
+                <h5>{poll.status}</h5>
+              </div>
               <div className="actions">
                 { /* Delete Draft Button */
                   poll.status === "Draft" &&
