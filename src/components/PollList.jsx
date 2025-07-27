@@ -1,20 +1,36 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { API_URL } from "../shared";
 import PollCard from "./PollCard";
-import "./PollList.css";
 import SearchField from "./SearchField";
+import axios from "axios";
+import "./PollList.css";
 
-const PollList = ({ polls }) => {
-  const [filteredPolls, setFilteredPolls] = useState(polls);
+const PollList = () => {
+  const [polls, setPolls] = useState([]);
+  const [filteredPolls, setFilteredPolls] = useState([]);
 
-  // Update filteredPolls when polls prop changes
-  React.useEffect(() => {
-    setFilteredPolls(polls);
-  }, [polls]);
+  const getPolls = async () => {
+    try {
+      const response = await axios.get(`${API_URL}/api/polls`, {
+        withCredentials: true,
+      });
+      setPolls(response.data);
+      setFilteredPolls(response.data.filter((poll) => poll.status === "Open"));
+    } catch (error) {
+      console.error("Error", error);
+    }
+  };
+
+  useEffect(() => {
+    getPolls();
+  }, []);
 
   const handleSearch = (searchTerm) => {
     const term = searchTerm.toLowerCase();
+    const openPolls = polls.filter((poll) => poll.status === "Open");
+    console.log(openPolls);
     setFilteredPolls(
-      polls.filter((poll) => poll.title.toLowerCase().includes(term))
+      openPolls.filter((poll) => poll.title.toLowerCase().includes(term))
     );
   };
 

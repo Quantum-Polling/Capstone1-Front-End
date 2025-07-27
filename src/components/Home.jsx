@@ -1,10 +1,8 @@
 import React from "react";
 import PollList from "./PollList";
-const Home = ({ polls }) => {
+const Home = () => {
   return (
-    <>
-      <PollList polls={polls} />
-    </>
+    <PollList />
   );
 };
 

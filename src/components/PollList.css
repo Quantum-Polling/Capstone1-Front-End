@@ -59,6 +59,7 @@
 
 .poll-list {
   display: flex;
+  gap: 1rem;
   flex-wrap: wrap;
   justify-content: center;
 }
@@ -92,6 +93,18 @@
 .ballot-container:hover {
   transform: translateY(-8px) scale(1.03);
   box-shadow: 10px 10px 20px rgba(74, 67, 67, 0.5);
+}
+
+.ballot-container button {
+  text-align: right;
+  position: absolute;
+  top: 10x;
+  bottom: 25px;
+  right: 25px;
+  margin-right: auto;
+  border-radius: 20px;
+  border: none;
+  padding: 7px;
 }
 
 .single-ballot-choices li {
@@ -136,4 +149,12 @@ body {
   position: relative;
   top: 0;
   left: 0;
+}
+
+.details-right {
+  width: 25%;
+  text-align: right;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
 }
