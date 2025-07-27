@@ -94,6 +94,18 @@
   box-shadow: 10px 10px 20px rgba(74, 67, 67, 0.5);
 }
 
+.ballot-container button {
+  text-align: right;
+  position: absolute;
+  top: 10x;
+  bottom: 25px;
+  right: 25px;
+  margin-right: auto;
+  border-radius: 20px;
+  border: none;
+  padding: 7px;
+}
+
 .single-ballot-choices li {
   text-align: left;
   position: relative;
