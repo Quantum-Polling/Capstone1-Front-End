@@ -176,7 +176,7 @@ const App = () => {
               <Route path="edit" element={<PollCreator user={user} />} />
               <Route path="results" element={<PollResults />} />
             </Route>
-            <Route path="mypolls" element={<MyPolls polls={myPolls} />} />
+            <Route path="mypolls" element={<MyPolls polls={myPolls} getPolls={getMyPolls}/>} />
             
           </Route>
           <Route path="*" element={<NotFound />} />
