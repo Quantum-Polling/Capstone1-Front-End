@@ -3,7 +3,7 @@ import { createRoot } from "react-dom/client";
 import axios from "axios";
 import "./AppStyles.css";
 import NavBar from "./components/NavBar";
-import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Login from "./components/Login";
 import Signup from "./components/Signup";
 import Home from "./components/Home";
@@ -17,11 +17,13 @@ import SinglePoll from "./components/SinglePoll";
 import MyPolls from "./components/MyPolls";
 import PollResults from "./components/PollResults";
 
+axios.defaults.withCredentials = true;
+
 const App = () => {
   const [user, setUser] = useState(null);
   const [isAuth, setIsAuth] = useState(false);
-
   const [loading, setLoading] = useState(true);
+
   const {
     isAuthenticated,
     user: auth0User,
@@ -29,12 +31,32 @@ const App = () => {
     logout: auth0Logout,
   } = useAuth0();
 
+  useEffect(() => {
+    const savedUser = localStorage.getItem("user");
+
+    // Prevent crash when localStorage has "undefined"
+    if (savedUser && savedUser !== "undefined") {
+      try {
+        setUser(JSON.parse(savedUser));
+        setIsAuth(true);
+      } catch (error) {
+        console.error("❌ Failed to parse savedUser:", error);
+        setUser(null);
+        setIsAuth(false);
+        localStorage.removeItem("user");
+      }
+    }
+
+    checkAuth(); // ✅ still revalidate with backend
+  }, []);
+
   const checkAuth = async () => {
     try {
       const response = await axios.get(`${API_URL}/auth/me`, {
         withCredentials: true,
       });
       setUser(response.data.user);
+      localStorage.setItem("user", JSON.stringify(response.data.user)); // ✅ Save
       setIsAuth(true);
     } catch {
       console.log("Not authenticated");
@@ -45,12 +67,6 @@ const App = () => {
     }
   };
 
-  // Check authentication status on app load
-  useEffect(() => {
-    checkAuth();
-  }, []);
-
-  // Handle Auth0 authentication
   useEffect(() => {
     if (isAuthenticated && auth0User) {
       handleAuth0Login();
@@ -68,11 +84,10 @@ const App = () => {
           email: auth0User.email,
           username: auth0User.nickname || auth0User.email?.split("@")[0],
         },
-        {
-          withCredentials: true,
-        }
+        { withCredentials: true }
       );
       setUser(response.data.user);
+      localStorage.setItem("user", JSON.stringify(response.data.user)); // ✅ Save
     } catch (error) {
       console.error("Auth0 login error:", error);
     }
@@ -80,20 +95,11 @@ const App = () => {
 
   const handleLogout = async () => {
     try {
-      // Logout from our backend
-      await axios.post(
-        `${API_URL}/auth/logout`,
-        {},
-        {
-          withCredentials: true,
-        }
-      );
+      await axios.post(`${API_URL}/auth/logout`, {}, { withCredentials: true });
       setUser(null);
-      // Logout from Auth0
+      localStorage.removeItem("user"); // ✅ Clear on logout
       auth0Logout({
-        logoutParams: {
-          returnTo: window.location.origin,
-        },
+        logoutParams: { returnTo: window.location.origin },
       });
     } catch (error) {
       console.error("Logout error:", error);
@@ -135,12 +141,11 @@ const App = () => {
           <Route path="/polls">
             <Route path="create" element={<PollCreator user={user} />} />
             <Route path=":id">
-              <Route index element={<SinglePoll />} />
+              <Route index element={<SinglePoll user={user} />} />
               <Route path="edit" element={<PollCreator user={user} />} />
               <Route path="results" element={<PollResults />} />
             </Route>
-            <Route path="mypolls" element={<MyPolls user={user}/>} />
-            
+            <Route path="mypolls" element={<MyPolls user={user} />} />
           </Route>
           <Route path="*" element={<NotFound />} />
         </Routes>
