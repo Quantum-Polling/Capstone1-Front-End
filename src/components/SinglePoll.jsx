@@ -5,7 +5,7 @@ import axios from "axios";
 import { API_URL } from "../shared";
 import "./PollList.css";
 
-const SinglePoll = () => {
+const SinglePoll = ({ user }) => {
   const [poll, setPoll] = useState(null);
   const [loading, setLoading] = useState(true);
   const [ballot, setBallot] = useState([]);
@@ -79,6 +79,42 @@ const SinglePoll = () => {
             </li>
           ))}
         </ol>
+        {ballot.length > 0 && (
+          <button
+            onClick={async () => {
+              const confirmSubmit =
+                ballot.length < poll.poll_options.length
+                  ? window.confirm(
+                      "WARNING: Not all options are ranked. Submit anyway?"
+                    )
+                  : true;
+
+              if (!confirmSubmit) return;
+
+              try {
+                await axios.post(
+                  `${API_URL}/api/polls/${User.id}/vote/${poll.id}`,
+                  {
+                    rankings: ballot.map((option, index) => ({
+                      option,
+                      rank: index + 1,
+                    })),
+                  },
+                  { withCredentials: true }
+                );
+
+                alert("All choices are submitted successfully!");
+              } catch (err) {
+                console.error(err);
+
+                alert("Error submitting vote.");
+              }
+            }}
+            className="submit-vote-btn"
+          >
+            Submit Vote
+          </button>
+        )}
       </div>
     </div>
   );
