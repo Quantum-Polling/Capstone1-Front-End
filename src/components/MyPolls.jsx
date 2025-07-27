@@ -16,7 +16,9 @@ const MyPolls = ({ user }) => {
     const pollId = event.target.value;
     if (window.confirm("Are you sure you want to delete this draft?")) {
       try {
-        const response = await axios.delete(`${API_URL}/api/polls/${user.id}/delete/${pollId}`);
+        const response = await axios.delete(`${API_URL}/api/polls/${user.id}/delete/${pollId}`, {
+          withCredentials: true,
+        });
         getPolls();
       } catch (error) {
         console.error(error);
@@ -24,10 +26,19 @@ const MyPolls = ({ user }) => {
     }
   }
 
-  const closePoll = (event) => {
-    const pollId = event.target.value;
-    console.log("Close Poll", pollId);
+  const closePoll = async (event) => {
     event.stopPropagation();
+    const pollId = event.target.value;
+    if (window.confirm("Are you sure you want to close this poll?")) {
+      try {
+        const response = await axios.patch(`${API_URL}/api/polls/${user.id}/close/${pollId}`, {}, {
+          withCredentials: true,
+        });
+        getPolls();
+      } catch (error) {
+        console.error(error);
+      }
+    }
   }
 
   const getPolls = async () => {
