@@ -1,11 +1,15 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { API_URL } from "../shared";
 import axios from "axios";
 import "./MyPolls.css";
 
-const MyPolls = ({ user, polls, getPolls }) => {
+const MyPolls = ({ user }) => {
+  if (!user)
+    return <p>Log in to view your polls</p>
+
   const navigate = useNavigate();
+  const [polls, setPolls] = useState([]);
 
   const deleteDraft = async (event) => {
     event.stopPropagation();
@@ -25,6 +29,23 @@ const MyPolls = ({ user, polls, getPolls }) => {
     console.log("Close Poll", pollId);
     event.stopPropagation();
   }
+
+  const getPolls = async () => {
+    try {
+      const response = await axios.get(`${API_URL}/api/polls/mypolls`, {
+        params: { userId: user.id },   // Pass as query param
+        withCredentials: true
+      });
+      console.log(response.data);
+      setPolls(response.data);
+    } catch (error) {
+      console.error("Error", error);
+    }
+  };
+
+  useEffect(() => {
+      getPolls();
+  }, []);
 
   return (
     <div className="polls-list">

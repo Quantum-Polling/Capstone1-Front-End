@@ -20,7 +20,6 @@ import PollResults from "./components/PollResults";
 const App = () => {
   const [user, setUser] = useState(null);
   const [polls, setPolls] = useState([]);
-  const [myPolls, setMyPolls] = useState([]);
   const [isAuth, setIsAuth] = useState(false);
 
   const [loading, setLoading] = useState(true);
@@ -67,25 +66,6 @@ const App = () => {
   useEffect(() => {
     getPolls();
   }, []);
-
-  const getMyPolls = async () => {
-    try {
-      const response = await axios.get(`${API_URL}/api/polls/mypolls`, {
-        params: { userId: user.id },   // Pass as query param
-        withCredentials: true
-      });
-      console.log(response.data);
-      setMyPolls(response.data);
-    } catch (error) {
-      console.error("Error", error);
-    }
-  };
-
-  useEffect(() => {
-    if (user && user.id) {
-      getMyPolls();
-    }
-  }, [user]);
 
   // Handle Auth0 authentication
   useEffect(() => {
@@ -176,7 +156,7 @@ const App = () => {
               <Route path="edit" element={<PollCreator user={user} />} />
               <Route path="results" element={<PollResults />} />
             </Route>
-            <Route path="mypolls" element={<MyPolls user={user} polls={myPolls} getPolls={getMyPolls}/>} />
+            <Route path="mypolls" element={<MyPolls user={user}/>} />
             
           </Route>
           <Route path="*" element={<NotFound />} />
