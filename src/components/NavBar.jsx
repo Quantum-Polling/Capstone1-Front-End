@@ -1,7 +1,6 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "./NavBarStyles.css";
-import { Navigate } from "react-router-dom";
 
 const NavBar = ({ user, onLogout }) => {
   console.log("User", user);
