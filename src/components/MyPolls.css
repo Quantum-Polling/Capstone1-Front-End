@@ -34,6 +34,11 @@
   width: 10%;
 }
 
+.actions button {
+  width: 100%;
+  padding: 0.2rem;
+}
+
 .polls-card.draft {
   border-left: 6px solid #aa9417;
 }
