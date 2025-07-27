@@ -59,6 +59,7 @@
 
 .poll-list {
   display: flex;
+  gap: 1rem;
   flex-wrap: wrap;
   justify-content: center;
 }
@@ -148,4 +149,12 @@ body {
   position: relative;
   top: 0;
   left: 0;
+}
+
+.details-right {
+  width: 25%;
+  text-align: right;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
 }
